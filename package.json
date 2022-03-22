@@ -1,0 +1,27 @@
+{
+  "name": "periodic-dbd-data",
+  "version": "1.0.0",
+  "description": "Update data from outside sources periodically for serving via REST",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cazwacki/periodic-dbd-data.git"
+  },
+  "keywords": [
+    "dead",
+    "by",
+    "daylight"
+  ],
+  "author": "Charles Zawacki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cazwacki/periodic-dbd-data/issues"
+  },
+  "homepage": "https://github.com/cazwacki/periodic-dbd-data#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
