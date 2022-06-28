@@ -60,7 +60,7 @@ function check_for_fetch() {
                     });
                 } else {
                     console.log("Shrine is up to date");
-                    next_shrine_fetch = current_time_in_seconds + 30 * 60 * 1000;
+                    next_shrine_fetch = current_time_in_seconds + 30 * 60;
                 }
             })
             .catch(err => { throw err });
@@ -87,7 +87,7 @@ function check_for_fetch() {
                     });
                 } else {
                     console.log("Rift is up to date");
-                    next_rift_fetch = current_time_in_seconds + 30 * 60 * 1000;
+                    next_rift_fetch = current_time_in_seconds + 30 * 60;
                 }
             })
             .catch(err => { throw err });
@@ -118,7 +118,7 @@ function check_for_fetch() {
                     version_update();
                 } else {
                     console.log("Version is up to date");
-                    next_version_check = current_time_in_seconds + 30 * 60 * 1000;
+                    next_version_check = current_time_in_seconds + 30 * 60;
                 }
             })
             .catch(err => { throw err });
