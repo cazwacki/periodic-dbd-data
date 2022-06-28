@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const merge = require('deepmerge');
+const { exec } = require('child_process');
 const fs = require('fs');
 
 let urls = {
@@ -16,6 +17,8 @@ let next_shrine_fetch = 0;
 let next_rift_fetch = 0;
 let next_version_check = 0;
 
+let queued_cmds = [];
+
 perform_check_for_fetch();
 
 function perform_check_for_fetch() {
@@ -24,6 +27,16 @@ function perform_check_for_fetch() {
 }
 
 function check_for_fetch() {
+
+    // execute any needed git pushes
+    if (queued_cmds.length > 0) {
+        let command = queued_cmds.shift()
+        exec(command, (err, stdout, stderr) => {
+            if (!err) {
+                console.log('Successfully ran: "', command, '"');
+            }
+        });
+    }
 
     let current_time_in_seconds = Math.floor(new Date() / 1000);
 
@@ -41,6 +54,7 @@ function check_for_fetch() {
                             console.log("Failed to write shrine: ", err);
                         } else {
                             console.log("Shrine updated");
+                            queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update" && git push');
                             next_shrine_fetch = out.end + 5 * 60 * 1000; // 5 minutes after shrine is updated
                         }
                     });
@@ -67,6 +81,7 @@ function check_for_fetch() {
                             console.log("Failed to write rift: ", err);
                         } else {
                             console.log("Rift updated");
+                            queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
                             next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
                         }
                     });
@@ -96,6 +111,7 @@ function check_for_fetch() {
                             console.log("Failed to write version: ", err);
                         } else {
                             console.log("Version updated");
+                            queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
                             next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
                         }
                     });
@@ -141,6 +157,7 @@ function version_update() {
                     console.log("Failed to update perks: ", err);
                 } else {
                     console.log("Perks updated");
+                    queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update" && git push');
                 }
             });
         })
@@ -169,6 +186,7 @@ function version_update() {
                     console.log("Failed to update items: ", err);
                 } else {
                     console.log("Items updated");
+                    queued_cmds.push('git add items.json && git commit -m "Automated Items Update" && git push');
                 }
             });
         })
@@ -258,6 +276,7 @@ function version_update() {
                     console.log("Failed to update addons: ", err);
                 } else {
                     console.log("Addons updated");
+                    queued_cmds.push('git add addons.json && git commit -m "Automated Addons Update" && git push');
                 }
             });
         })
@@ -286,6 +305,7 @@ function version_update() {
                     console.log("Failed to update killers: ", err);
                 } else {
                     console.log("Killers updated");
+                    queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update" && git push');
                 }
             });
         })
