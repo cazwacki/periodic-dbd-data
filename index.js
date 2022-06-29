@@ -141,7 +141,16 @@ function version_update() {
         .then((out) => {
             let fixed_json = '{';
             for (let key of Object.keys(out)) {
-                fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"').replaceAll("We'll make it", "We'll Make It") + '":{';
+                fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"')
+                    .replaceAll("We'll make it", "We'll Make It")
+                    .replaceAll("Barbecue & Chili", "Barbecue & Chilli")
+                    .replaceAll("’", "'")
+                    .replaceAll("&nbsp;", " ")
+                    .replaceAll("Hex: Blood Favor", "Hex: Blood Favour")
+                    .replaceAll("Make your Choice", "Make Your Choice")
+                    .replaceAll("Play with your food", "Play with Your Food")
+                    .replaceAll("Save the best for last", "Save the Best for Last")
+                    .replaceAll("Deja Vu", "Déjà Vu") + '":{';
 
                 // fix description
                 let description = out[key].description.replaceAll('\"', '\\\"');
