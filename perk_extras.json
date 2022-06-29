@@ -61,7 +61,7 @@
     },
     "Beast of Prey": {
         "url": "https://deadbydaylight.fandom.com/wiki/Beast_of_Prey",
-        "img_url": "images/perks/iconPerks_beastOfPrey.png",
+        "img_url": "images/perks/iconPerks_BeastOfPrey.png",
         "Stealth": 1,
         "Informative": 0,
         "1V1": 1,
@@ -421,7 +421,7 @@
     },
     "Gearhead": {
         "url": "https://deadbydaylight.fandom.com/wiki/Gearhead",
-        "img_url": "images/perks/iconPerks_gearhead.png",
+        "img_url": "images/perks/iconPerks_Gearhead.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 0,
@@ -466,7 +466,7 @@
     },
     "Hex: Crowd Control": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Crowd_Control",
-        "img_url": "images/perks/iconPerks_hexCrowdControl.png",
+        "img_url": "images/perks/iconPerks_HexCrowdControl.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -616,7 +616,7 @@
     },
     "Hoarder": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hoarder",
-        "img_url": "images/perks/iconPerks_hoarder.png",
+        "img_url": "images/perks/iconPerks_Hoarder.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 0,
@@ -796,7 +796,7 @@
     },
     "Fearmonger": {
         "url": "https://deadbydaylight.fandom.com/wiki/Fearmonger",
-        "img_url": "images/perks/iconPerks_mindbreaker.png",
+        "img_url": "images/perks/iconPerks_mindBreaker.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -856,7 +856,7 @@
     },
     "No Way Out": {
         "url": "https://deadbydaylight.fandom.com/wiki/No_Way_Out",
-        "img_url": "images/perks/iconPerks_noWayOut.png",
+        "img_url": "images/perks/iconPerks_NoWayOut.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -871,7 +871,7 @@
     },
     "Oppression": {
         "url": "https://deadbydaylight.fandom.com/wiki/Oppression",
-        "img_url": "images/perks/iconPerks_oppression.png",
+        "img_url": "images/perks/iconPerks_Oppression.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -1066,7 +1066,7 @@
     },
     "Starstruck": {
         "url": "https://deadbydaylight.fandom.com/wiki/Starstruck",
-        "img_url": "images/perks/iconPerks_starstruck.png",
+        "img_url": "images/perks/iconPerks_Starstruck.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -1126,7 +1126,7 @@
     },
     "Territorial Imperative": {
         "url": "https://deadbydaylight.fandom.com/wiki/Territorial_Imperative",
-        "img_url": "images/perks/iconPerks_territorialImperative.png",
+        "img_url": "images/perks/iconPerks_TerritorialImperative.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -1261,7 +1261,7 @@
     },
     "Hex: Plaything": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Plaything",
-        "img_url": "images/perks/iconPerks_hexPlaything.png",
+        "img_url": "images/perks/iconPerks_HexPlaything.png",
         "Stealth": 1,
         "Informative": 0,
         "1V1": 0,
@@ -1276,7 +1276,7 @@
     },
     "Scourge Hook: Gift of Pain": {
         "url": "https://deadbydaylight.fandom.com/wiki/Scourge_Hook:_Gift_of_Pain",
-        "img_url": "images/perks/iconPerks_scourgeHookGiftOfPain.png",
+        "img_url": "images/perks/iconPerks_ScourgeHookGiftOfPain.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -1291,7 +1291,7 @@
     },
     "Deadlock": {
         "url": "https://deadbydaylight.fandom.com/wiki/Deadlock",
-        "img_url": "images/perks/iconPerks_deadlock.png",
+        "img_url": "images/perks/iconPerks_Deadlock.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -1396,7 +1396,7 @@
     },
     "Dissolution": {
         "url": "https://deadbydaylight.fandom.com/wiki/Dissolution",
-        "img_url": "images/perks/iconPerks_dissolution.png",
+        "img_url": "images/perks/iconPerks_Dissolution.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 3,
@@ -1411,7 +1411,7 @@
     },
     "Septic Touch": {
         "url": "https://deadbydaylight.fandom.com/wiki/Septic_Touch",
-        "img_url": "images/perks/iconPerks_septicTouch.png",
+        "img_url": "images/perks/iconPerks_SepticTouch.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -1576,7 +1576,7 @@
     },
     "Situational Awareness": {
         "url": "https://deadbydaylight.fandom.com/wiki/Situational_Awareness",
-        "img_url": "images/perks/iconPerks_betterTogether.png",
+        "img_url": "images/perks/iconPerks_situationalAwareness.png",
         "Cleansing": 0,
         "Informative": 2,
         "Team-Oriented": 2,
@@ -1591,7 +1591,7 @@
     },
     "Bite the Bullet": {
         "url": "https://deadbydaylight.fandom.com/wiki/Bite_the_Bullet",
-        "img_url": "images/perks/iconPerks_biteTheBullet.png",
+        "img_url": "images/perks/iconPerks_BiteTheBullet.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 1,
@@ -1666,7 +1666,7 @@
     },
     "Boon: Circle of Healing": {
         "url": "https://deadbydaylight.fandom.com/wiki/Boon:_Circle_of_Healing",
-        "img_url": "images/perks/iconPerks_boonCircleOfHealing.png",
+        "img_url": "images/perks/iconPerks_BoonCircleOfHealing.png",
         "Cleansing": 2,
         "Informative": 0,
         "Team-Oriented": 2,
@@ -1681,7 +1681,7 @@
     },
     "Boon: Shadow Step": {
         "url": "https://deadbydaylight.fandom.com/wiki/Boon:_Shadow_Step",
-        "img_url": "images/perks/iconPerks_boonShadowStep.png",
+        "img_url": "images/perks/iconPerks_BoonShadowStep.png",
         "Cleansing": 2,
         "Informative": 0,
         "Team-Oriented": 2,
@@ -1816,7 +1816,7 @@
     },
     "Clairvoyance": {
         "url": "https://deadbydaylight.fandom.com/wiki/Clairvoyance",
-        "img_url": "images/perks/iconPerks_clairvoyance.png",
+        "img_url": "images/perks/iconPerks_Clairvoyance.png",
         "Cleansing": 1,
         "Informative": 3,
         "Team-Oriented": 0,
@@ -1831,7 +1831,7 @@
     },
     "Counterforce": {
         "url": "https://deadbydaylight.fandom.com/wiki/Counterforce",
-        "img_url": "images/perks/iconPerks_counterforce.png",
+        "img_url": "images/perks/iconPerks_Counterforce.png",
         "Cleansing": 2,
         "Informative": 1,
         "Team-Oriented": 0,
@@ -1876,7 +1876,7 @@
     },
     "Dead Hard": {
         "url": "https://deadbydaylight.fandom.com/wiki/Dead_Hard",
-        "img_url": "images/perks/iconPerks_deadHard.png",
+        "img_url": "images/perks/iconPerks_DeadHard.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2026,7 +2026,7 @@
     },
     "Fast Track": {
         "url": "https://deadbydaylight.fandom.com/wiki/Fast_Track",
-        "img_url": "images/perks/iconPerks_fastTrack.png",
+        "img_url": "images/perks/iconPerks_FastTrack.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2056,7 +2056,7 @@
     },
     "Flashbang": {
         "url": "https://deadbydaylight.fandom.com/wiki/Flashbang",
-        "img_url": "images/perks/iconPerks_flashbang.png",
+        "img_url": "images/perks/iconPerks_Flashbang.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2266,7 +2266,7 @@
     },
     "No Mither": {
         "url": "https://deadbydaylight.fandom.com/wiki/No_Mither",
-        "img_url": "images/perks/iconPerks_noMither.png",
+        "img_url": "images/perks/iconPerks_NoMither.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2491,7 +2491,7 @@
     },
     "Resurgence": {
         "url": "https://deadbydaylight.fandom.com/wiki/Resurgence",
-        "img_url": "images/perks/iconPerks_resurgence.png",
+        "img_url": "images/perks/iconPerks_Resurgence.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2506,7 +2506,7 @@
     },
     "Rookie Spirit": {
         "url": "https://deadbydaylight.fandom.com/wiki/Rookie_Spirit",
-        "img_url": "images/perks/iconPerks_rookieSpirit.png",
+        "img_url": "images/perks/iconPerks_RookieSpirit.png",
         "Cleansing": 0,
         "Informative": 2,
         "Team-Oriented": 0,
@@ -2566,7 +2566,7 @@
     },
     "Self-Preservation": {
         "url": "https://deadbydaylight.fandom.com/wiki/Self-Preservation",
-        "img_url": "images/perks/iconPerks_self-Preservation.png",
+        "img_url": "images/perks/iconPerks_Self-Preservation.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2611,7 +2611,7 @@
     },
     "Smash Hit": {
         "url": "https://deadbydaylight.fandom.com/wiki/Smash_Hit",
-        "img_url": "images/perks/iconPerks_smashHit.png",
+        "img_url": "images/perks/iconPerks_SmashHit.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2911,7 +2911,7 @@
     },
     "Overcome": {
         "url": "https://deadbydaylight.fandom.com/wiki/Overcome",
-        "img_url": "images/perks/iconPerks_overcome.png",
+        "img_url": "images/perks/iconPerks_Overcome.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2926,7 +2926,7 @@
     },
     "Corrective Action": {
         "url": "https://deadbydaylight.fandom.com/wiki/Corrective_Action",
-        "img_url": "images/perks/iconPerks_correctiveAction.png",
+        "img_url": "images/perks/iconPerks_CorrectiveAction.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 2,
@@ -2941,7 +2941,7 @@
     },
     "Boon: Exponential": {
         "url": "https://deadbydaylight.fandom.com/wiki/Boon:_Exponential",
-        "img_url": "images/perks/iconPerks_boonExponential.png",
+        "img_url": "images/perks/iconPerks_BoonExponential.png",
         "Cleansing": 2,
         "Informative": 0,
         "Team-Oriented": 1,
@@ -3001,7 +3001,7 @@
     },
     "Overzealous": {
         "url": "https://deadbydaylight.fandom.com/wiki/Overzealous",
-        "img_url": "images/perks/iconPerks_overzealous.png",
+        "img_url": "images/perks/iconPerks_Overzealous.png",
         "Cleansing": 2,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -3016,7 +3016,7 @@
     },
     "Residual Manifest": {
         "url": "https://deadbydaylight.fandom.com/wiki/Residual_Manifest",
-        "img_url": "images/perks/iconPerks_residualManifest.png",
+        "img_url": "images/perks/iconPerks_ResidualManifest.png",
         "Cleansing": 1,
         "Informative": 0,
         "Team-Oriented": 2,
@@ -3031,7 +3031,7 @@
     },
     "Inner Focus": {
         "url": "https://deadbydaylight.fandom.com/wiki/Inner_Focus",
-        "img_url": "images/perks/iconPerks_innerFocus.png",
+        "img_url": "images/perks/iconPerks_InnerFocus.png",
         "Cleansing": 0,
         "Informative": 2,
         "Team-Oriented": 1,
