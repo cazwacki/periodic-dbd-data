@@ -46,7 +46,7 @@
     },
     "Barbecue & Chilli": {
         "url": "https://deadbydaylight.fandom.com/wiki/Barbecue_%26_Chilli",
-        "img_url": "images/perks/iconPerks_barbecueAndChilli.png",
+        "img_url": "images/perks/iconPerks_BBQAndChili.png",
         "Stealth": 0,
         "Informative": 3,
         "1V1": 1,
@@ -181,7 +181,7 @@
     },
     "Coup de Grâce": {
         "url": "https://deadbydaylight.fandom.com/wiki/Coup_de_Gr%C3%A2ce",
-        "img_url": "images/perks/iconPerks_coupDeGr%C3%A2ce.png",
+        "img_url": "images/perks/iconPerks_coupDeGrace.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -196,7 +196,7 @@
     },
     "Claustrophobia": {
         "url": "https://deadbydaylight.fandom.com/wiki/Claustrophobia",
-        "img_url": "images/perks/iconPerks_cruelLimits.png",
+        "img_url": "images/perks/iconPerks_cruelConfinement.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -226,7 +226,7 @@
     },
     "Dead Man's Switch": {
         "url": "https://deadbydaylight.fandom.com/wiki/Dead_Man%27s_Switch",
-        "img_url": "images/perks/iconPerks_deadMansSwitch.png",
+        "img_url": "images/perks/iconPerks_deadManSwitch.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -391,7 +391,7 @@
     },
     "Franklin's Demise": {
         "url": "https://deadbydaylight.fandom.com/wiki/Franklin%27s_Demise",
-        "img_url": "images/perks/iconPerks_franklinsDemise.png",
+        "img_url": "images/perks/iconPerks_franklinsLoss.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -451,7 +451,7 @@
     },
     "Hex: Blood Favour": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Blood_Favour",
-        "img_url": "images/perks/iconPerks_hexBloodFavour.png",
+        "img_url": "images/perks/iconPerks_hexBloodFavor.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -481,7 +481,7 @@
     },
     "Hex: Devour Hope": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Devour_Hope",
-        "img_url": "images/perks/iconPerks_hexDevourHope.png",
+        "img_url": "images/perks/iconPerks_devourHope.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -496,7 +496,7 @@
     },
     "Hex: Haunted Ground": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Haunted_Ground",
-        "img_url": "images/perks/iconPerks_hexHauntedGround.png",
+        "img_url": "images/perks/iconPerks_hauntedGround.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 3,
@@ -511,7 +511,7 @@
     },
     "Hex: Huntress Lullaby": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Huntress_Lullaby",
-        "img_url": "images/perks/iconPerks_hexHuntressLullaby.png",
+        "img_url": "images/perks/iconPerks_HuntressLullaby.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -526,7 +526,7 @@
     },
     "Hex: No One Escapes Death": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_No_One_Escapes_Death",
-        "img_url": "images/perks/iconPerks_hexNoOneEscapesDeath.png",
+        "img_url": "images/perks/iconPerks_noOneEscapesDeath.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -556,7 +556,7 @@
     },
     "Hex: Ruin": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Ruin",
-        "img_url": "images/perks/iconPerks_hexRuin.png",
+        "img_url": "images/perks/iconPerks_ruin.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -571,7 +571,7 @@
     },
     "Hex: The Third Seal": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_The_Third_Seal",
-        "img_url": "images/perks/iconPerks_hexTheThirdSeal.png",
+        "img_url": "images/perks/iconPerks_theThirdSeal.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -586,7 +586,7 @@
     },
     "Hex: Thrill of the Hunt": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hex:_Thrill_of_the_Hunt",
-        "img_url": "images/perks/iconPerks_hexThrillOfTheHunt.png",
+        "img_url": "images/perks/iconPerks_thrillOfTheHunt.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -886,7 +886,7 @@
     },
     "Overcharge": {
         "url": "https://deadbydaylight.fandom.com/wiki/Overcharge",
-        "img_url": "images/perks/iconPerks_overcharge.png",
+        "img_url": "images/perks/iconPerks_generatorOvercharge.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -961,7 +961,7 @@
     },
     "Rancor": {
         "url": "https://deadbydaylight.fandom.com/wiki/Rancor",
-        "img_url": "images/perks/iconPerks_rancor.png",
+        "img_url": "images/perks/iconPerks_hatred.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 0,
@@ -1141,7 +1141,7 @@
     },
     "Thanatophobia": {
         "url": "https://deadbydaylight.fandom.com/wiki/Thanatophobia",
-        "img_url": "images/perks/iconPerks_thanatophobia.png",
+        "img_url": "images/perks/iconPerks_thatanophobia.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -1351,7 +1351,7 @@
     },
     "Scourge Hook: Floods of Rage": {
         "url": "https://deadbydaylight.fandom.com/wiki/Scourge_Hook:_Floods_of_Rage",
-        "img_url": "images/perks/iconPerks_scourgeHookFloodsOfRage.png",
+        "img_url": "images/perks/iconPerks_floodOfRage.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 0,
@@ -1426,7 +1426,7 @@
     },
     "Darkness Revealed": {
         "url": "https://deadbydaylight.fandom.com/wiki/Darkness_Revealed",
-        "img_url": "images/perks/iconPerks_darknessRevealed.png",
+        "img_url": "images/perks/iconPerks_DarknessRevelated.png",
         "Stealth": 0,
         "Informative": 3,
         "1V1": 1,
@@ -2071,7 +2071,7 @@
     },
     "Flip-Flop": {
         "url": "https://deadbydaylight.fandom.com/wiki/Flip-Flop",
-        "img_url": "images/perks/iconPerks_flip-Flop.png",
+        "img_url": "images/perks/iconPerks_flipFlop.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2131,7 +2131,7 @@
     },
     "Inner Healing": {
         "url": "https://deadbydaylight.fandom.com/wiki/Inner_Healing",
-        "img_url": "images/perks/iconPerks_innerHealing.png",
+        "img_url": "images/perks/iconPerks_survivalInstincts.png",
         "Cleansing": 1,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2326,7 +2326,7 @@
     },
     "Open-Handed": {
         "url": "https://deadbydaylight.fandom.com/wiki/Open-Handed",
-        "img_url": "images/perks/iconPerks_open-Handed.png",
+        "img_url": "images/perks/iconPerks_openHanded.png",
         "Cleansing": 0,
         "Informative": 2,
         "Team-Oriented": 2,
@@ -2536,7 +2536,7 @@
     },
     "Renewal": {
         "url": "https://deadbydaylight.fandom.com/wiki/Renewal",
-        "img_url": "images/perks/iconPerks_renewal.png",
+        "img_url": "images/perks/iconPerks_pushThroughIt.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 1,
@@ -2551,7 +2551,7 @@
     },
     "Self-Care": {
         "url": "https://deadbydaylight.fandom.com/wiki/Self-Care",
-        "img_url": "images/perks/iconPerks_self-Care.png",
+        "img_url": "images/perks/iconPerks_selfCare.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -2986,7 +2986,7 @@
     },
     "Boon: Dark Theory": {
         "url": "https://deadbydaylight.fandom.com/wiki/Boon:_Dark_Theory",
-        "img_url": "images/perks/iconPerks_boonDarkTheory.png",
+        "img_url": "images/perks/iconPerks_darkTheory.png",
         "Cleansing": 2,
         "Informative": 0,
         "Team-Oriented": 1,
@@ -3042,6 +3042,21 @@
         "Self-Sufficient": 0,
         "Stealth": 0,
         "Clutch": 1,
+        "Total": 4
+    },
+    "Shattered Hope": {
+        "url": "https://deadbydaylight.fandom.com/wiki/Shattered_Hope",
+        "img_url": "images/perks/iconPerks_BoonDestroyer.png",
+        "Stealth": 0,
+        "Informative": 1,
+        "1V1": 1,
+        "Anti-Gens": 0,
+        "Anti-Healing": 1,
+        "Special Effects": 0,
+        "Anti-Information": 0,
+        "Map Pressure": 1,
+        "Clutch": 0,
+        "Terrorizing": 0,
         "Total": 4
     }
 }
