@@ -47,6 +47,13 @@ function check_for_fetch() {
             .then(res => res.json())
             .then((out) => {
                 let new_shrine = JSON.stringify(out.perks);
+
+                // name conversions
+                let perks = require('./perks');
+                for (let key of Object.keys(perks)) {
+                    new_shrine = new_shrine.replaceAll(perks[key].alt_name, key);
+                }
+
                 let old_shrine = JSON.stringify(require('./shrine.json'));
                 if (new_shrine != old_shrine) {
                     fs.writeFile("shrine.json", new_shrine, (err) => {
@@ -143,7 +150,8 @@ function version_update() {
                 }
 
                 fixed_json += '"description":"' + description + '",';
-                fixed_json += '"role": "' + out[key].role + '"';
+                fixed_json += '"role": "' + out[key].role + '",';
+                fixed_json += '"alt_name": "' + key + '"';
                 fixed_json += "},";
             }
 
