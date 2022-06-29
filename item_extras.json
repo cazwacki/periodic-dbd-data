@@ -1,5 +1,5 @@
 {
-    "Flashlight (Item)": {
+    "Flashlight": {
         "url": "https://deadbydaylight.fandom.com/wiki/Flashlight_(Item)",
         "img_url": "images/items/iconItems_flashlight.png",
         "addons": [
@@ -167,7 +167,7 @@
         "Clutch": 1,
         "Total": 5
     },
-    "Map (Item)": {
+    "Map": {
         "url": "https://deadbydaylight.fandom.com/wiki/Map_(Item)",
         "img_url": "images/items/iconItems_map.png",
         "addons": [
@@ -367,7 +367,7 @@
         "Clutch": 0,
         "Total": 1
     },
-    "Toolbox (Item)": {
+    "Toolbox": {
         "url": "https://deadbydaylight.fandom.com/wiki/Toolbox_(Item)",
         "img_url": "images/items/iconItems_toolbox.png",
         "addons": [
