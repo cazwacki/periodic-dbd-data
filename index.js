@@ -51,7 +51,10 @@ function check_for_fetch() {
                 // name conversions
                 let perks = require('./perks');
                 for (let key of Object.keys(perks)) {
-                    new_shrine = new_shrine.replaceAll(perks[key].alt_name, key + '","description":"' + perks[key].description);
+                    new_shrine = new_shrine.replaceAll(perks[key].alt_name, key
+                        + '","description":"' + perks[key].description
+                        + '","url":"' + perks[key].url
+                        + '","img_url":"' + perks[key].img_url);
                 }
 
                 let old_shrine = JSON.stringify(require('./shrine.json'));
