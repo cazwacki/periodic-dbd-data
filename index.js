@@ -165,9 +165,9 @@ function version_update() {
                 for (let i = 0; i < out[key].tunables.length; i++) {
                     let tunable = out[key].tunables[i];
                     if (tunable.length == 3) {
-                        let colored_tunable = '<span style=\\\"color:#FFD700\\\">' + out[key].tunables[i][0] +
-                            '</span>/<span style=\\\"color:#7CFC00\\\">' + out[key].tunables[i][1] +
-                            '</span>/<span style=\\\"color:#CF9FFF\\\">' + out[key].tunables[i][2] + '</span>';
+                        let colored_tunable = '<span style=\\\"color:#FFD700; font-weight: bold\\\">' + out[key].tunables[i][0] +
+                            '</span>/<span style=\\\"color:#7CFC00; font-weight: bold\\\">' + out[key].tunables[i][1] +
+                            '</span>/<span style=\\\"color:#CF9FFF; font-weight: bold\\\">' + out[key].tunables[i][2] + '</span>';
                         description = description.replaceAll("{" + i.toString() + "}", colored_tunable);
                     } else {
                         description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
@@ -424,9 +424,9 @@ function beautify(description) {
 
         if (color != '') {
             if (color == "#FFA500" && !isNaN(split_desc[i - 1])) {
-                split_desc[i - 1] = '<span style=\\\"color:' + color + '\\\">' + split_desc[i - 1] + '</span>';
+                split_desc[i - 1] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i - 1] + '</span>';
             }
-            split_desc[i] = '<span style=\\\"color:' + color + '\\\">' + split_desc[i] + '</span>';
+            split_desc[i] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i] + '</span>';
         }
     }
 
