@@ -58,7 +58,7 @@ function check_for_fetch() {
                 let perks = require('./perks');
                 for (let key of Object.keys(perks)) {
                     new_shrine = new_shrine.replaceAll(perks[key].alt_name, key
-                        + '","description":"' + perks[key].description
+                        + '","description":"' + perks[key].description.replaceAll('"', '\\\"')
                         + '","url":"' + perks[key].url
                         + '","img_url":"' + perks[key].img_url);
                 }
@@ -164,7 +164,15 @@ function version_update() {
                 // fix description
                 let description = out[key].description.replaceAll('\"', '\\\"');
                 for (let i = 0; i < out[key].tunables.length; i++) {
-                    description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
+                    let tunable = out[key].tunables[i];
+                    if (tunable.length == 3) {
+                        let colored_tunable = '<span style=\\\"color:#FFD700\\\">' + out[key].tunables[i][0] +
+                            '</span>/<span style=\\\"color:#228B22\\\">' + out[key].tunables[i][1] +
+                            '</span>/<span style=\\\"color:#7F00FF\\\">' + out[key].tunables[i][2] + '</span>';
+                        description = description.replaceAll("{" + i.toString() + "}", colored_tunable);
+                    } else {
+                        description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
+                    }
                 }
                 description = beautify(description);
 
@@ -365,7 +373,8 @@ function beautify(description) {
         .replaceAll('Exit Gate', 'Exit_Gate')
         .replaceAll('Basic Attack', 'Basic_Attack')
         .replaceAll('Special Attack', 'Special_Attack')
-        .replaceAll('Stillness Crows', 'Stillness_Crows');
+        .replaceAll('Stillness Crows', 'Stillness_Crows')
+        .replaceAll('%', ' %').replaceAll('&nbsp;', ' ');
 
     let general_keywords = ['Item',
         'Items', 'Chest', 'Chests', 'Add-on', 'Add-ons',
@@ -394,26 +403,29 @@ function beautify(description) {
         'Scratch_Mark', 'Scratch_Marks', 'Crows', 'Pools_of_Blood',
         'Terror Radius', 'Stillness_Crows', 'Scourge_Hook', 'Scourge_Hooks',
         'Basement_Hook', 'Basement_Hooks'];
-    let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meters'];
+    let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meters', '%'];
 
     let split_desc = description.split(" ");
     for (let i = 0; i < split_desc.length; i++) {
         let color = '';
-        if (general_keywords.includes(split_desc[i])) {
-            color = '#F1E5AC';
-        } else if (states.includes(split_desc[i])) {
-            color = '#ADD8E6';
-        } else if (good_status_effects.includes(split_desc[i])) {
-            color = '#90EE90';
-        } else if (bad_status_effects.includes(split_desc[i])) {
-            color = '#FF7F7F';
-        } else if (killer_keywords.includes(split_desc[i])) {
-            color = '#A865C9';
-        } else if (color_counter.includes(split_desc[i])) {
-            color = '#FF8C00';
+        if (general_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#FFD700';
+        } else if (states.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#008080';
+        } else if (good_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#228B22';
+        } else if (bad_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#D2042D';
+        } else if (killer_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#7F00FF';
+        } else if (color_counter.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+            color = '#FFA500';
         }
 
         if (color != '') {
+            if (color == "#FFA500" && !isNaN(split_desc[i - 1])) {
+                split_desc[i - 1] = '<span style=\\\"color:' + color + '\\\">' + split_desc[i - 1] + '</span>';
+            }
             split_desc[i] = '<span style=\\\"color:' + color + '\\\">' + split_desc[i] + '</span>';
         }
     }
