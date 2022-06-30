@@ -194,6 +194,20 @@ function version_update() {
                     queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update" && git push');
                 }
             });
+
+            let old_shrine = require('./shrine.json');
+            for (let i = 0; i < old_shrine.length; i++) {
+                old_shrine[i].description = perk_info[old_shrine[i].id].description;
+            }
+
+            fs.writeFile("shrine.json", JSON.stringify(old_shrine), (err) => {
+                if (err) {
+                    console.log("Failed to write shrine: ", err);
+                } else {
+                    console.log("Shrine updated with new perk descriptions");
+                    queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update" && git push');
+                }
+            });
         })
         .catch(err => { throw err });
 
@@ -408,17 +422,18 @@ function beautify(description) {
     let split_desc = description.split(/\s+/);
     for (let i = 0; i < split_desc.length; i++) {
         let color = '';
-        if (general_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        let term = split_desc[i].replaceAll('.', '').replaceAll(',', '').toLowerCase();
+        if (general_keywords.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#FFD700';
-        } else if (states.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        } else if (states.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#008080';
-        } else if (good_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        } else if (good_status_effects.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#7CFC00';
-        } else if (bad_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        } else if (bad_status_effects.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#D2042D';
-        } else if (killer_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        } else if (killer_keywords.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#CF9FFF';
-        } else if (color_counter.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
+        } else if (color_counter.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#FFA500';
         }
 
