@@ -374,7 +374,8 @@ function beautify(description) {
         .replaceAll('Basic Attack', 'Basic_Attack')
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
-        .replaceAll('%', ' %').replaceAll('&nbsp;', ' ');
+        .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
+        .replaceAll('.', '. ');
 
     let general_keywords = ['Item',
         'Items', 'Chest', 'Chests', 'Add-on', 'Add-ons',
@@ -405,7 +406,7 @@ function beautify(description) {
         'Basement_Hook', 'Basement_Hooks'];
     let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meter', 'meters', '%'];
 
-    let split_desc = description.split(" ");
+    let split_desc = description.split(/\s+/);
     for (let i = 0; i < split_desc.length; i++) {
         let color = '';
         if (general_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
