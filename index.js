@@ -53,11 +53,10 @@ function check_for_fetch() {
             .then(res => res.json())
             .then((out) => {
                 let new_shrine = JSON.stringify(out.perks);
-
                 // name conversions
                 let perks = require('./perks');
                 for (let key of Object.keys(perks)) {
-                    new_shrine = new_shrine.replaceAll(perks[key].alt_name, key
+                    new_shrine = new_shrine.replace(perks[key].alt_name, key
                         + '","description":"' + perks[key].description.replaceAll('"', '\\\"')
                         + '","url":"' + perks[key].url
                         + '","img_url":"' + perks[key].img_url);
@@ -82,63 +81,63 @@ function check_for_fetch() {
             .catch(err => { throw err });
     }
 
-    if (next_rift_fetch < current_time_in_seconds) {
-        // check for new rift
-        console.log("Searching for new rift...");
-        fetch(urls["rift"])
-            .then(res => res.json())
-            .then((out) => {
-                let new_rift_start = out[Object.keys(out).sort().pop()].start;
-                let old_rift = require('./rift.json');
-                if (new_rift_start >= old_rift.end) {
-                    let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
-                    fs.writeFile("rift.json", "{\"end\": \"" + new_rift_end + "\"}", (err) => {
-                        if (err) {
-                            console.log("Failed to write rift: ", err);
-                        } else {
-                            console.log("Rift updated");
-                            queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
-                            next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
-                        }
-                    });
-                } else {
-                    console.log("Rift is up to date");
-                    next_rift_fetch = current_time_in_seconds + 30 * 60;
-                }
-            })
-            .catch(err => { throw err });
-    }
+    // if (next_rift_fetch < current_time_in_seconds) {
+    //     // check for new rift
+    //     console.log("Searching for new rift...");
+    //     fetch(urls["rift"])
+    //         .then(res => res.json())
+    //         .then((out) => {
+    //             let new_rift_start = out[Object.keys(out).sort().pop()].start;
+    //             let old_rift = require('./rift.json');
+    //             if (new_rift_start >= old_rift.end) {
+    //                 let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
+    //                 fs.writeFile("rift.json", "{\"end\": \"" + new_rift_end + "\"}", (err) => {
+    //                     if (err) {
+    //                         console.log("Failed to write rift: ", err);
+    //                     } else {
+    //                         console.log("Rift updated");
+    //                         queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
+    //                         next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
+    //                     }
+    //                 });
+    //             } else {
+    //                 console.log("Rift is up to date");
+    //                 next_rift_fetch = current_time_in_seconds + 30 * 60;
+    //             }
+    //         })
+    //         .catch(err => { throw err });
+    // }
 
-    if (next_version_check < current_time_in_seconds) {
-        // get latest version
-        console.log("Checking game version");
-        fetch(urls["version"])
-            .then(res => res.json())
-            .then((out) => {
-                let versions = out.availableVersions;
-                let saved_version = require('./version.json');
-                let latest_version = Object.keys(versions)
-                    .filter(k => !k.startsWith("m_"))
-                    .pop();
-                if (latest_version != saved_version.latest) {
-                    // update saved version
-                    fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
-                        if (err) {
-                            console.log("Failed to write version: ", err);
-                        } else {
-                            console.log("Version updated");
-                            queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
-                            next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
-                        }
-                    });
-                    version_update();
-                } else {
-                    console.log("Version is up to date");
-                    next_version_check = current_time_in_seconds + 30 * 60;
-                }
-            })
-            .catch(err => { throw err });
-    }
+    // if (next_version_check < current_time_in_seconds) {
+    //     // get latest version
+    //     console.log("Checking game version");
+    //     fetch(urls["version"])
+    //         .then(res => res.json())
+    //         .then((out) => {
+    //             let versions = out.availableVersions;
+    //             let saved_version = require('./version.json');
+    //             let latest_version = Object.keys(versions)
+    //                 .filter(k => !k.startsWith("m_"))
+    //                 .pop();
+    //             if (latest_version != saved_version.latest) {
+    //                 // update saved version
+    //                 fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
+    //                     if (err) {
+    //                         console.log("Failed to write version: ", err);
+    //                     } else {
+    //                         console.log("Version updated");
+    //                         queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
+    //                         next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
+    //                     }
+    //                 });
+    //                 version_update();
+    //             } else {
+    //                 console.log("Version is up to date");
+    //                 next_version_check = current_time_in_seconds + 30 * 60;
+    //             }
+    //         })
+    //         .catch(err => { throw err });
+    // }
 }
 
 // update perks, items, killers, and addons
@@ -167,8 +166,8 @@ function version_update() {
                     let tunable = out[key].tunables[i];
                     if (tunable.length == 3) {
                         let colored_tunable = '<span style=\\\"color:#FFD700\\\">' + out[key].tunables[i][0] +
-                            '</span>/<span style=\\\"color:#228B22\\\">' + out[key].tunables[i][1] +
-                            '</span>/<span style=\\\"color:#7F00FF\\\">' + out[key].tunables[i][2] + '</span>';
+                            '</span>/<span style=\\\"color:#7CFC00\\\">' + out[key].tunables[i][1] +
+                            '</span>/<span style=\\\"color:#CF9FFF\\\">' + out[key].tunables[i][2] + '</span>';
                         description = description.replaceAll("{" + i.toString() + "}", colored_tunable);
                     } else {
                         description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
@@ -414,11 +413,11 @@ function beautify(description) {
         } else if (states.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
             color = '#008080';
         } else if (good_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
-            color = '#228B22';
+            color = '#7CFC00';
         } else if (bad_status_effects.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
             color = '#D2042D';
         } else if (killer_keywords.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
-            color = '#7F00FF';
+            color = '#CF9FFF';
         } else if (color_counter.find(element => { return element.toLowerCase() === split_desc[i].replaceAll('.', '').toLowerCase(); }) !== undefined) {
             color = '#FFA500';
         }
