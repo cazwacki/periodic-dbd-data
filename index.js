@@ -81,63 +81,63 @@ function check_for_fetch() {
             .catch(err => { throw err });
     }
 
-    // if (next_rift_fetch < current_time_in_seconds) {
-    //     // check for new rift
-    //     console.log("Searching for new rift...");
-    //     fetch(urls["rift"])
-    //         .then(res => res.json())
-    //         .then((out) => {
-    //             let new_rift_start = out[Object.keys(out).sort().pop()].start;
-    //             let old_rift = require('./rift.json');
-    //             if (new_rift_start >= old_rift.end) {
-    //                 let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
-    //                 fs.writeFile("rift.json", "{\"end\": \"" + new_rift_end + "\"}", (err) => {
-    //                     if (err) {
-    //                         console.log("Failed to write rift: ", err);
-    //                     } else {
-    //                         console.log("Rift updated");
-    //                         queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
-    //                         next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
-    //                     }
-    //                 });
-    //             } else {
-    //                 console.log("Rift is up to date");
-    //                 next_rift_fetch = current_time_in_seconds + 30 * 60;
-    //             }
-    //         })
-    //         .catch(err => { throw err });
-    // }
+    if (next_rift_fetch < current_time_in_seconds) {
+        // check for new rift
+        console.log("Searching for new rift...");
+        fetch(urls["rift"])
+            .then(res => res.json())
+            .then((out) => {
+                let new_rift_start = out[Object.keys(out).sort().pop()].start;
+                let old_rift = require('./rift.json');
+                if (new_rift_start >= old_rift.end) {
+                    let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
+                    fs.writeFile("rift.json", "{\"end\": \"" + new_rift_end + "\"}", (err) => {
+                        if (err) {
+                            console.log("Failed to write rift: ", err);
+                        } else {
+                            console.log("Rift updated");
+                            queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
+                            next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
+                        }
+                    });
+                } else {
+                    console.log("Rift is up to date");
+                    next_rift_fetch = current_time_in_seconds + 30 * 60;
+                }
+            })
+            .catch(err => { throw err });
+    }
 
-    // if (next_version_check < current_time_in_seconds) {
-    //     // get latest version
-    //     console.log("Checking game version");
-    //     fetch(urls["version"])
-    //         .then(res => res.json())
-    //         .then((out) => {
-    //             let versions = out.availableVersions;
-    //             let saved_version = require('./version.json');
-    //             let latest_version = Object.keys(versions)
-    //                 .filter(k => !k.startsWith("m_"))
-    //                 .pop();
-    //             if (latest_version != saved_version.latest) {
-    //                 // update saved version
-    //                 fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
-    //                     if (err) {
-    //                         console.log("Failed to write version: ", err);
-    //                     } else {
-    //                         console.log("Version updated");
-    //                         queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
-    //                         next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
-    //                     }
-    //                 });
-    //                 version_update();
-    //             } else {
-    //                 console.log("Version is up to date");
-    //                 next_version_check = current_time_in_seconds + 30 * 60;
-    //             }
-    //         })
-    //         .catch(err => { throw err });
-    // }
+    if (next_version_check < current_time_in_seconds) {
+        // get latest version
+        console.log("Checking game version");
+        fetch(urls["version"])
+            .then(res => res.json())
+            .then((out) => {
+                let versions = out.availableVersions;
+                let saved_version = require('./version.json');
+                let latest_version = Object.keys(versions)
+                    .filter(k => !k.startsWith("m_"))
+                    .pop();
+                if (latest_version != saved_version.latest) {
+                    // update saved version
+                    fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
+                        if (err) {
+                            console.log("Failed to write version: ", err);
+                        } else {
+                            console.log("Version updated");
+                            queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
+                            next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
+                        }
+                    });
+                    version_update();
+                } else {
+                    console.log("Version is up to date");
+                    next_version_check = current_time_in_seconds + 30 * 60;
+                }
+            })
+            .catch(err => { throw err });
+    }
 }
 
 // update perks, items, killers, and addons
