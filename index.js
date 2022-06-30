@@ -26,6 +26,12 @@ function perform_check_for_fetch() {
     setTimeout(perform_check_for_fetch, 60 * 1000);
 }
 
+String.prototype.replaceAll = function (strReplace, strWith) {
+    var esc = strReplace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    var reg = new RegExp(esc, 'ig');
+    return this.replace(reg, strWith);
+};
+
 function check_for_fetch() {
 
     // execute any needed git pushes
@@ -158,8 +164,9 @@ function version_update() {
                 // fix description
                 let description = out[key].description.replaceAll('\"', '\\\"');
                 for (let i = 0; i < out[key].tunables.length; i++) {
-                    description = description.replaceAll('{' + i + '}', out[key].tunables[i].join("/"));
+                    description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
                 }
+                description = beautify(description);
 
                 fixed_json += '"description":"' + description + '",';
                 fixed_json += '"role": "' + out[key].role + '",';
@@ -191,7 +198,7 @@ function version_update() {
             for (let key of Object.keys(out)) {
                 if (out[key].name != null) {
                     fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"') + '":{';
-                    fixed_json += '"description":"' + out[key].description.replaceAll('\"', '\\\"') + '"';
+                    fixed_json += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"')) + '"';
                     fixed_json += "},";
                 }
             }
@@ -281,7 +288,7 @@ function version_update() {
                             break;
                     }
                     fixed_json += '"' + addon_name + '":{';
-                    fixed_json += '"description":"' + out[key].description.replaceAll('\"', '\\\"').replaceAll("&nbsp;", " ") + '"';
+                    fixed_json += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"').replaceAll("&nbsp;", " ")) + '"';
                     fixed_json += "},";
                 }
             }
@@ -330,4 +337,90 @@ function version_update() {
             });
         })
         .catch(err => { throw err });
+}
+
+function beautify(description) {
+    // connect multi-word terms
+    description = description
+        .replaceAll('Terror Radius', 'Terror_Radius')
+        .replaceAll('Health State', 'Health_State')
+        .replaceAll('Breakable Wall', 'Breakable_Wall')
+        .replaceAll('Great Skill Check', 'Great_Skill_Check')
+        .replaceAll('Good Skill Check', 'Good_Skill_Check')
+        .replaceAll('Failed Skill Check', 'Failed_Skill_Check')
+        .replaceAll('Skill Check', 'Skill_Check')
+        .replaceAll('Loud Noise Notification', 'Loud_Noise_Notification')
+        .replaceAll('Boon Totem', 'Boon_Totem')
+        .replaceAll('Dull Totem', 'Dull_Totem')
+        .replaceAll('Hex Totem', 'Hex_Totem')
+        .replaceAll('Protection Hit', 'Protection_Hit')
+        .replaceAll('Injured State', 'Injured_State')
+        .replaceAll('Deep Wound', 'Deep_Wound')
+        .replaceAll('Pools of Blood', 'Pools_of_Blood')
+        .replaceAll('Dying State', 'Dying_State')
+        .replaceAll('Scourge Hook', 'Scourge_Hook')
+        .replaceAll('Basement Hook', 'Basement_Hook')
+        .replaceAll('Scratch Marks', 'Scratch_Marks')
+        .replaceAll('Exit Gate Switches', 'Exit_Gate_Switches')
+        .replaceAll('Exit Gate', 'Exit_Gate')
+        .replaceAll('Basic Attack', 'Basic_Attack')
+        .replaceAll('Special Attack', 'Special_Attack')
+        .replaceAll('Stillness Crows', 'Stillness_Crows');
+
+    let general_keywords = ['Item',
+        'Items', 'Chest', 'Chests', 'Add-on', 'Add-ons',
+        'Exit_Gate', 'Exit_Gates', 'Aura', 'Auras', 'Pallet',
+        'Pallets', 'Breakable_Wall', 'Breakable_Walls',
+        'Generator', 'Generators', 'Skill_Check', 'Skill_Checks',
+        'Survivor', 'Survivors', 'Med-Kit', 'Boon_Totem',
+        'Boon_Totems', 'Locker', 'Lockers', 'Totem', 'Totems',
+        'Dull_Totem', 'Dull_Totems', 'Hex_Totem', 'Hex_Totems',
+        'Good_Skill_Check', 'Good_Skill_Checks', 'Great_Skill_Check',
+        'Great_Skill_Checks', 'Hatch', 'Window', 'Windows',
+        'Map', 'Maps', 'Altruism', 'Bloodpoints', 'Flashlight',
+        'Toolbox', 'Med-Kits', 'Basic_Attack', 'Basic_Attacks',
+        'Special_Attack', 'Special_Attacks', 'Luck',
+        'Exit_Gate_Switch', 'Exit_Gate_Switches', 'Protection_Hit',
+        'Protection_Hits', 'Hunter', 'Entity', 'Deviousness',
+        'Failed_Skill_Check', 'Failed_Skill_Checks', 'Basement',
+    ];
+    let states = ['Health_State', 'Health_States', 'Injured_State', 'Injured_States', 'Dying_State', 'Dying_States'];
+    let good_status_effects = ['Haste', 'Endurance', 'Bloodlust', 'Undetectable'];
+    let bad_status_effects = ['Exhaustion', 'Exhausted', 'Broken', 'Bleeding', 'Blindness',
+        'Deep Wound', 'Cursed', 'Exposed', 'Hindered', 'Oblivious',
+        'Hemorrhage', 'Incapacitated', 'Mangled'];
+    let killer_keywords = ['Hook', 'Hooks', 'Loud_Noise_Notification',
+        'Loud_Noise_Notifications', 'Obsession', 'Killer', 'Killers',
+        'Scratch_Mark', 'Scratch_Marks', 'Crows', 'Pools_of_Blood',
+        'Terror Radius', 'Stillness_Crows', 'Scourge_Hook', 'Scourge_Hooks',
+        'Basement_Hook', 'Basement_Hooks'];
+    let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meters'];
+
+    let split_desc = description.split(" ");
+    for (let i = 0; i < split_desc.length; i++) {
+        let color = '';
+        if (general_keywords.includes(split_desc[i])) {
+            color = '#F1E5AC';
+        } else if (states.includes(split_desc[i])) {
+            color = '#ADD8E6';
+        } else if (good_status_effects.includes(split_desc[i])) {
+            color = '#90EE90';
+        } else if (bad_status_effects.includes(split_desc[i])) {
+            color = '#FF7F7F';
+        } else if (killer_keywords.includes(split_desc[i])) {
+            color = '#A865C9';
+        } else if (color_counter.includes(split_desc[i])) {
+            color = '#FF8C00';
+        }
+
+        if (color != '') {
+            split_desc[i] = '<span style=\\\"color:' + color + '\\\">' + split_desc[i] + '</span>';
+        }
+    }
+
+    description = split_desc.join(" ");
+
+    // disconnect multi-word terms
+    description = description.replaceAll("_", " ");
+    return description;
 }
