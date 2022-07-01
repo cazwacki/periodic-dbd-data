@@ -388,7 +388,8 @@ function beautify(description) {
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
         .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
-        .replaceAll('.', '. ');
+        .replaceAll('.', '. ').replaceAll('<b>', '')
+        .replaceAll('</b>', '');
 
     let general_keywords = ['Item',
         'Items', 'Chest', 'Chests', 'Add-on', 'Add-ons',
