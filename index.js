@@ -70,7 +70,7 @@ function check_for_fetch() {
                         } else {
                             console.log("Shrine updated");
                             queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update" && git push');
-                            next_shrine_fetch = out.end + 5 * 60 * 1000; // 5 minutes after shrine is updated
+                            next_shrine_fetch = out.end + 5 * 60; // 5 minutes after shrine is updated
                         }
                     });
                 } else {
@@ -97,7 +97,7 @@ function check_for_fetch() {
                         } else {
                             console.log("Rift updated");
                             queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
-                            next_rift_fetch = out.end + 5 * 60 * 1000; // 5 minutes after rift is updated
+                            next_rift_fetch = out.end + 5 * 60; // 5 minutes after rift is updated
                         }
                     });
                 } else {
@@ -127,7 +127,7 @@ function check_for_fetch() {
                         } else {
                             console.log("Version updated");
                             queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
-                            next_version_check = current_time_in_seconds + 24 * 60 * 60 * 1000; // next day
+                            next_version_check = current_time_in_seconds + 24 * 60 * 60; // next day
                         }
                     });
                     version_update();
