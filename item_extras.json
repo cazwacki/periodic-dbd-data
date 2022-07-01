@@ -279,7 +279,7 @@
         "Clutch": 0,
         "Total": 5
     },
-    "Emergency Med-Kit": {
+    "Emergency Med-kit": {
         "url": "https://deadbydaylight.fandom.com/wiki/Emergency_Med-Kit",
         "img_url": "images/items/iconItems_medkit.png",
         "addons": [
@@ -309,7 +309,7 @@
         "Clutch": 1,
         "Total": 4
     },
-    "Ranger Med-Kit": {
+    "Ranger Med-kit": {
         "url": "https://deadbydaylight.fandom.com/wiki/Ranger_Med-Kit",
         "img_url": "images/items/iconItems_rangersAidKit.png",
         "addons": [
