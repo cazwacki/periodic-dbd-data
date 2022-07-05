@@ -387,7 +387,7 @@ function beautify(description) {
         .replaceAll('Basic Attack', 'Basic_Attack')
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
-        .replaceAll('%', '%').replaceAll('&nbsp;', ' ')
+        .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
         .replaceAll('.<', '. <').replaceAll('<b>', '')
         .replaceAll('</b>', '');
 
