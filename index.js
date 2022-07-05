@@ -388,7 +388,7 @@ function beautify(description) {
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
         .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
-        .replaceAll('.', '. ').replaceAll('<b>', '')
+        .replaceAll('.<', '. <').replaceAll('<b>', '')
         .replaceAll('</b>', '');
 
     let general_keywords = ['Item',
@@ -446,7 +446,7 @@ function beautify(description) {
         }
     }
 
-    description = split_desc.join(" ");
+    description = split_desc.join(" ").replaceAll(" %", "%");
 
     // disconnect multi-word terms
     description = description.replaceAll("_", " ");
