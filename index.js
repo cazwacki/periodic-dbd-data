@@ -387,7 +387,7 @@ function beautify(description) {
         .replaceAll('Basic Attack', 'Basic_Attack')
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
-        .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
+        .replaceAll('%', '%').replaceAll('&nbsp;', ' ')
         .replaceAll('.<', '. <').replaceAll('<b>', '')
         .replaceAll('</b>', '');
 
@@ -440,9 +440,11 @@ function beautify(description) {
 
         if (color != '') {
             if (color == "#FFA500" && !isNaN(split_desc[i - 1])) {
-                split_desc[i - 1] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i - 1] + '</span>';
+                split_desc[i - 1] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i - 1];
+                split_desc[i] = split_desc[i] + '</span>';
+            } else {
+                split_desc[i] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i] + '</span>';
             }
-            split_desc[i] = '<span style=\\\"color:' + color + '; font-weight: bold\\\">' + split_desc[i] + '</span>';
         }
     }
 
