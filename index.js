@@ -361,7 +361,7 @@ function version_update() {
 }
 
 function beautify(description) {
-    // connect multi-word terms
+    // connect multi-word terms and add proper spacing after periods
     description = description
         .replaceAll('Terror Radius', 'Terror_Radius')
         .replaceAll('Health State', 'Health_State')
@@ -388,7 +388,7 @@ function beautify(description) {
         .replaceAll('Special Attack', 'Special_Attack')
         .replaceAll('Stillness Crows', 'Stillness_Crows')
         .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
-        .replaceAll('.<', '. <').replaceAll('<b>', '')
+        .replaceAll('<b>', '').replace(/\.([^0-9\s])/g, '. $1')
         .replaceAll('</b>', '');
 
     let general_keywords = ['Item',
@@ -423,7 +423,7 @@ function beautify(description) {
     let split_desc = description.split(/\s+/);
     for (let i = 0; i < split_desc.length; i++) {
         let color = '';
-        let term = split_desc[i].replaceAll('.', '').replaceAll(',', '').toLowerCase();
+        let term = split_desc[i].replaceAll(',', '').toLowerCase();
         if (general_keywords.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#FFD700';
         } else if (states.find(element => { return element.toLowerCase() === term; }) !== undefined) {
