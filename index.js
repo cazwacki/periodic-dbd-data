@@ -62,6 +62,8 @@ function check_for_fetch() {
                         + '","img_url":"' + perks[key].img_url);
                 }
 
+                new_shrine = '{"end":"' + out.end + '","perks":' + new_shrine + '}'
+
                 let old_shrine = JSON.stringify(require('./shrine.json'));
                 if (new_shrine != old_shrine) {
                     fs.writeFile("shrine.json", new_shrine, (err) => {
@@ -197,7 +199,7 @@ function version_update() {
 
             let old_shrine = require('./shrine.json');
             for (let i = 0; i < old_shrine.length; i++) {
-                old_shrine[i].description = perk_info[old_shrine[i].id].description;
+                old_shrine.perks[i].description = perk_info[old_shrine.perks[i].id].description;
             }
 
             fs.writeFile("shrine.json", JSON.stringify(old_shrine), (err) => {
