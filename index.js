@@ -418,7 +418,7 @@ function beautify(description) {
         'Scratch_Mark', 'Scratch_Marks', 'Crows', 'Pools_of_Blood',
         'Terror Radius', 'Stillness_Crows', 'Scourge_Hook', 'Scourge_Hooks',
         'Basement_Hook', 'Basement_Hooks'];
-    let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meter', 'meters', '%'];
+    let color_counter = ['Token', 'Tokens', 'second', 'seconds', 'meter', 'meters', '%', 'charges'];
 
     let split_desc = description.split(/\s+/);
     for (let i = 0; i < split_desc.length; i++) {
