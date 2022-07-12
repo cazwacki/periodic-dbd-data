@@ -425,7 +425,7 @@ function beautify(description) {
     let split_desc = description.split(/\s+/);
     for (let i = 0; i < split_desc.length; i++) {
         let color = '';
-        let term = split_desc[i].replaceAll(',', '').toLowerCase();
+        let term = split_desc[i].replaceAll('.', '').replaceAll(',', '').toLowerCase();
         if (general_keywords.find(element => { return element.toLowerCase() === term; }) !== undefined) {
             color = '#FFD700';
         } else if (states.find(element => { return element.toLowerCase() === term; }) !== undefined) {
