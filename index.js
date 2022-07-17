@@ -160,7 +160,8 @@ function version_update() {
                     .replaceAll("Make your Choice", "Make Your Choice")
                     .replaceAll("Play with your food", "Play with Your Food")
                     .replaceAll("Save the best for last", "Save the Best for Last")
-                    .replaceAll("Deja Vu", "Déjà Vu") + '":{';
+                    .replaceAll("Deja Vu", "Déjà Vu")
+                    + '":{';
 
                 // fix description
                 let description = out[key].description.replaceAll('\"', '\\\"');
@@ -177,9 +178,14 @@ function version_update() {
                 }
                 description = beautify(description);
 
+                let alt_name = key;
+                if (alt_name == "Bloodhound") {
+                    alt_name = "BloodHound";
+                }
+
                 fixed_json += '"description":"' + description + '",';
                 fixed_json += '"role": "' + out[key].role + '",';
-                fixed_json += '"alt_name": "' + key + '"';
+                fixed_json += '"alt_name": "' + alt_name + '"';
                 fixed_json += "},";
             }
 
