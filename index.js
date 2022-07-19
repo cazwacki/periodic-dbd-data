@@ -160,7 +160,7 @@ function version_update() {
                     .replaceAll("Make your Choice", "Make Your Choice")
                     .replaceAll("Play with your food", "Play with Your Food")
                     .replaceAll("Save the best for last", "Save the Best for Last")
-                    .replaceAll("Deja Vu", "Déjà Vu")
+                    .replaceAll("Deja Vu", "Déjà Vu").replaceAll("</br>", "</br> ")
                     + '":{';
 
                 // fix description
@@ -397,7 +397,7 @@ function beautify(description) {
         .replaceAll('Stillness Crows', 'Stillness_Crows')
         .replaceAll('%', ' %').replaceAll('&nbsp;', ' ')
         .replaceAll('<b>', '').replace(/\.([^0-9\s])/g, '. $1')
-        .replaceAll('</b>', '');
+        .replaceAll('</b>', '').replaceAll("</br>", "</br> ");
 
     let general_keywords = ['Item',
         'Items', 'Chest', 'Chests', 'Add-on', 'Add-ons',
