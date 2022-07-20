@@ -62,7 +62,7 @@ function check_for_fetch() {
                         + '","img_url":"' + perks[key].img_url);
                 }
 
-                new_shrine = '{"end":"' + out.end + '","perks":' + new_shrine + '}'
+                new_shrine = '{"end":"' + (out.end + 60 * 60) + '","perks":' + new_shrine + '}'
 
                 let old_shrine = JSON.stringify(require('./shrine.json'));
                 if (new_shrine != old_shrine) {
@@ -93,13 +93,13 @@ function check_for_fetch() {
                 let old_rift = require('./rift.json');
                 if (new_rift_start >= old_rift.end) {
                     let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
-                    fs.writeFile("rift.json", "{\"end\": \"" + new_rift_end + "\"}", (err) => {
+                    fs.writeFile("rift.json", "{\"end\": \"" + (new_rift_end + 60 * 60) + "\"}", (err) => {
                         if (err) {
                             console.log("Failed to write rift: ", err);
                         } else {
                             console.log("Rift updated");
                             queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
-                            next_rift_fetch = out.end + 60 * 60; // 1 hour after rift is updated
+                            next_rift_fetch = new_rift_end + 60 * 60; // 1 hour after rift is updated
                         }
                     });
                 } else {
