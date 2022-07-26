@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cazwacki/periodic-dbd-data#readme",
   "dependencies": {
     "deepmerge": "^4.2.2",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "require-uncached": "^2.0.0"
   }
 }

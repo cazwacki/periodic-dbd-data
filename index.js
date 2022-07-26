@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const merge = require('deepmerge');
 const { exec } = require('child_process');
+const requireUncached = require('require-uncached');
 const fs = require('fs');
 
 let urls = {
@@ -54,7 +55,7 @@ function check_for_fetch() {
             .then((out) => {
                 let new_shrine = JSON.stringify(out.perks);
                 // name conversions
-                let perks = require('./perks');
+                let perks = requireUncached('./perks');
                 for (let key of Object.keys(perks)) {
                     new_shrine = new_shrine.replace(perks[key].alt_name, key
                         + '","description":"' + perks[key].description.replaceAll('"', '\\\"')
@@ -64,7 +65,7 @@ function check_for_fetch() {
 
                 new_shrine = '{"end":"' + (out.end + 60 * 60) + '","perks":' + new_shrine + '}'
 
-                let old_shrine = JSON.stringify(require('./shrine.json'));
+                let old_shrine = JSON.stringify(requireUncached('./shrine.json'));
                 if (new_shrine != old_shrine) {
                     fs.writeFile("shrine.json", new_shrine, (err) => {
                         if (err) {
@@ -90,7 +91,7 @@ function check_for_fetch() {
             .then(res => res.json())
             .then((out) => {
                 let new_rift_start = out[Object.keys(out).sort().pop()].start;
-                let old_rift = require('./rift.json');
+                let old_rift = requireUncached('./rift.json');
                 if (new_rift_start >= old_rift.end) {
                     let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
                     fs.writeFile("rift.json", "{\"end\": \"" + (new_rift_end + 60 * 60) + "\"}", (err) => {
@@ -117,7 +118,7 @@ function check_for_fetch() {
             .then(res => res.json())
             .then((out) => {
                 let versions = out.availableVersions;
-                let saved_version = require('./version.json');
+                let saved_version = requireUncached('./version.json');
                 let latest_version = Object.keys(versions)
                     .filter(k => !k.startsWith("m_"))
                     .pop();
@@ -192,7 +193,7 @@ function version_update() {
             fixed_json = fixed_json.slice(0, -1) + "}";
 
             let perk_info = JSON.parse(fixed_json);
-            let perk_extras = require('./perk_extras');
+            let perk_extras = requireUncached('./perk_extras');
 
             fs.writeFile("perks.json", JSON.stringify(merge(perk_info, perk_extras)), (err) => {
                 if (err) {
@@ -203,7 +204,7 @@ function version_update() {
                 }
             });
 
-            let old_shrine = require('./shrine.json');
+            let old_shrine = requireUncached('./shrine.json');
             for (let i = 0; i < old_shrine.length; i++) {
                 old_shrine.perks[i].description = perk_info[old_shrine.perks[i].id].description;
             }
@@ -235,7 +236,7 @@ function version_update() {
             fixed_json = fixed_json.slice(0, -1) + "}";
 
             let item_info = JSON.parse(fixed_json);
-            let item_extras = require('./item_extras');
+            let item_extras = requireUncached('./item_extras');
 
             fs.writeFile("items.json", JSON.stringify(merge(item_info, item_extras)), (err) => {
                 if (err) {
@@ -325,7 +326,7 @@ function version_update() {
             fixed_json = fixed_json.slice(0, -1) + "}";
 
             let addon_info = JSON.parse(fixed_json);
-            let addon_extras = require('./addon_extras');
+            let addon_extras = requireUncached('./addon_extras');
 
             fs.writeFile("addons.json", JSON.stringify(merge(addon_info, addon_extras)), (err) => {
                 if (err) {
@@ -354,7 +355,7 @@ function version_update() {
             fixed_json = fixed_json.slice(0, -1) + "}";
 
             let killer_info = JSON.parse(fixed_json);
-            let killer_extras = require('./killer_extras');
+            let killer_extras = requireUncached('./killer_extras');
 
             fs.writeFile("killers.json", JSON.stringify(merge(killer_info, killer_extras)), (err) => {
                 if (err) {
