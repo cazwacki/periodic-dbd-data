@@ -65,7 +65,6 @@ async function tryUpdateAll() {
         await tryUpdateShrine();
     }
 
-    prettyLog('Scan complete');
 }
 
 function tryPushUpdates() {
