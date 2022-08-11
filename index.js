@@ -4,13 +4,16 @@ const { exec } = require('child_process');
 const requireUncached = require('require-uncached');
 const fs = require('fs');
 
+const axios = require('axios');
+const https = require('https');
+const httpsAgent = new https.Agent({ keepAlive: true });
+
 let urls = {
     "addons": "https://dbd.tricky.lol/api/addons",
     "items": "https://dbd.tricky.lol/api/items",
     "killers": "https://dbd.tricky.lol/api/characters?role=killer",
     "perks": "https://dbd.tricky.lol/api/perks",
     "rift": "https://dbd.tricky.lol/api/rift",
-    "shrine": "https://dbd.tricky.lol/api/shrine",
     "version": "https://steam.live.bhvrdbd.com/api/v1/utils/contentVersion/version"
 }
 
@@ -19,12 +22,14 @@ let next_rift_fetch = 0;
 let next_version_check = 0;
 
 let queued_cmds = [];
+let last_scan_unix;
 
-perform_check_for_fetch();
+prettyLog('Started');
+performUpdate();
 
-function perform_check_for_fetch() {
-    check_for_fetch();
-    setTimeout(perform_check_for_fetch, 60 * 1000);
+function performUpdate() {
+    tryUpdateAll();
+    setTimeout(performUpdate, 60 * 1000); // every minute
 }
 
 String.prototype.replaceAll = function (strReplace, strWith) {
@@ -33,340 +38,444 @@ String.prototype.replaceAll = function (strReplace, strWith) {
     return this.replace(reg, strWith);
 };
 
-function check_for_fetch() {
+async function tryUpdateAll() {
 
+    tryPushUpdates();
+
+    last_scan_unix = Math.floor(new Date() / 1000);
+
+    let version_updated = false;
+    if (next_version_check < last_scan_unix) {
+        version_updated = await tryUpdateVersion();
+    }
+
+    if (version_updated) {
+        await tryUpdatePerks();
+        await tryUpdateShrine(); // shrine needs new perk descriptions, if applicable
+        await tryUpdateItems();
+        await tryUpdateAddons();
+        await tryUpdateKillers();
+    }
+
+    if (next_rift_fetch < last_scan_unix) {
+        await tryUpdateRift();
+    }
+
+    if (next_shrine_fetch < last_scan_unix) {
+        await tryUpdateShrine();
+    }
+
+    prettyLog('Scan complete');
+}
+
+function tryPushUpdates() {
     // execute any needed git pushes
     if (queued_cmds.length > 0) {
-        let command = queued_cmds.shift()
+        let command = queued_cmds.join(' && ');
+        command += ' && git push';
         exec(command, (err, stdout, stderr) => {
             if (!err) {
-                console.log('Successfully ran: "', command, '"');
+                console.log('Executed: "', command, '"');
+            } else {
+                console.log(err);
             }
         });
-    }
-
-    let current_time_in_seconds = Math.floor(new Date() / 1000);
-
-    if (next_shrine_fetch < current_time_in_seconds) {
-        // check for new shrine
-        console.log("Searching for new shrine...");
-        fetch(urls["shrine"])
-            .then(res => res.json())
-            .then((out) => {
-                let new_shrine = JSON.stringify(out.perks);
-                // name conversions
-                let perks = requireUncached('./perks');
-                for (let key of Object.keys(perks)) {
-                    new_shrine = new_shrine.replace(perks[key].alt_name, key
-                        + '","description":"' + perks[key].description.replaceAll('"', '\\\"')
-                        + '","url":"' + perks[key].url
-                        + '","img_url":"' + perks[key].img_url);
-                }
-
-                new_shrine = '{"end":"' + (out.end + 60 * 60) + '","perks":' + new_shrine + '}'
-
-                let old_shrine = JSON.stringify(requireUncached('./shrine.json'));
-                if (new_shrine != old_shrine) {
-                    fs.writeFile("shrine.json", new_shrine, (err) => {
-                        if (err) {
-                            console.log("Failed to write shrine: ", err);
-                        } else {
-                            console.log("Shrine updated");
-                            queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update" && git push');
-                            next_shrine_fetch = out.end + 60 * 60; // 1 hour after shrine is updated
-                        }
-                    });
-                } else {
-                    console.log("Shrine is up to date");
-                    next_shrine_fetch = current_time_in_seconds + 30 * 60;
-                }
-            })
-            .catch(err => { throw err });
-    }
-
-    if (next_rift_fetch < current_time_in_seconds) {
-        // check for new rift
-        console.log("Searching for new rift...");
-        fetch(urls["rift"])
-            .then(res => res.json())
-            .then((out) => {
-                let new_rift_start = out[Object.keys(out).sort().pop()].start;
-                let old_rift = requireUncached('./rift.json');
-                if (new_rift_start >= old_rift.end) {
-                    let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
-                    fs.writeFile("rift.json", "{\"end\": \"" + (new_rift_end + 60 * 60) + "\"}", (err) => {
-                        if (err) {
-                            console.log("Failed to write rift: ", err);
-                        } else {
-                            console.log("Rift updated");
-                            queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update" && git push');
-                            next_rift_fetch = new_rift_end + 60 * 60; // 1 hour after rift is updated
-                        }
-                    });
-                } else {
-                    console.log("Rift is up to date");
-                    next_rift_fetch = current_time_in_seconds + 30 * 60;
-                }
-            })
-            .catch(err => { throw err });
-    }
-
-    if (next_version_check < current_time_in_seconds) {
-        // get latest version
-        console.log("Checking game version");
-        fetch(urls["version"])
-            .then(res => res.json())
-            .then((out) => {
-                let versions = out.availableVersions;
-                let saved_version = requireUncached('./version.json');
-                let latest_version = Object.keys(versions)
-                    .filter(k => !k.startsWith("m_"))
-                    .pop();
-                if (latest_version != saved_version.latest) {
-                    // update saved version
-                    fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
-                        if (err) {
-                            console.log("Failed to write version: ", err);
-                        } else {
-                            console.log("Version updated");
-                            queued_cmds.push('git add version.json && git commit -m "Automated Version Update" && git push');
-                            next_version_check = current_time_in_seconds + 24 * 60 * 60; // next day
-                        }
-                    });
-                    version_update();
-                } else {
-                    console.log("Version is up to date");
-                    next_version_check = current_time_in_seconds + 30 * 60;
-                }
-            })
-            .catch(err => { throw err });
+        queued_cmds = [];
     }
 }
 
-// update perks, items, killers, and addons
-// get data, build JSON and merge it with our extra data
-function version_update() {
-    // perks 
-    fetch(urls["perks"])
-        .then(res => res.json())
-        .then((out) => {
-            let fixed_json = '{';
-            for (let key of Object.keys(out)) {
-                fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"')
-                    .replaceAll("We'll make it", "We'll Make It")
-                    .replaceAll("Barbecue & Chili", "Barbecue & Chilli")
-                    .replaceAll("’", "'")
-                    .replaceAll("&nbsp;", " ")
-                    .replaceAll("Hex: Blood Favor", "Hex: Blood Favour")
-                    .replaceAll("Make your Choice", "Make Your Choice")
-                    .replaceAll("Play with your food", "Play with Your Food")
-                    .replaceAll("Save the best for last", "Save the Best for Last")
-                    .replaceAll("Deja Vu", "Déjà Vu")
-                    + '":{';
+async function tryUpdateVersion() {
+    let out = await fetch(urls["version"]).then(res => res.json());
 
-                // fix description
-                let description = out[key].description.replaceAll('\"', '\\\"');
-                for (let i = 0; i < out[key].tunables.length; i++) {
-                    let tunable = out[key].tunables[i];
-                    if (tunable.length == 3) {
-                        let colored_tunable = '<span style=\\\"color:#FFD700; font-weight: bold\\\">' + out[key].tunables[i][0] +
-                            '</span>/<span style=\\\"color:#7CFC00; font-weight: bold\\\">' + out[key].tunables[i][1] +
-                            '</span>/<span style=\\\"color:#CF9FFF; font-weight: bold\\\">' + out[key].tunables[i][2] + '</span>';
-                        description = description.replaceAll("{" + i.toString() + "}", colored_tunable);
-                    } else {
-                        description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
-                    }
-                }
-                description = beautify(description);
+    let saved_version = requireUncached('./version.json');
+    let latest_version = Object.keys(out.availableVersions)
+        .filter(k => !k.startsWith("m_"))
+        .pop();
 
-                let alt_name = key;
-                if (alt_name == "Bloodhound") {
-                    alt_name = "BloodHound";
-                }
-
-                fixed_json += '"description":"' + description + '",';
-                fixed_json += '"role": "' + out[key].role + '",';
-                fixed_json += '"alt_name": "' + alt_name + '"';
-                fixed_json += "},";
+    if (latest_version != saved_version.latest) {
+        fs.writeFile("version.json", "{\"latest\": \"" + latest_version + "\"}", (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add version.json && git commit -m "Automated Version Update"');
+                prettyLog("Version updated");
+                next_version_check = last_scan_unix + 24 * 60 * 60; // next day
+                return true;
             }
+        });
+    } else {
+        next_version_check = last_scan_unix + 30 * 60;
+        return false;
+    }
+}
 
-            fixed_json = fixed_json.slice(0, -1) + "}";
-
-            let perk_info = JSON.parse(fixed_json);
-            let perk_extras = requireUncached('./perk_extras');
-
-            fs.writeFile("perks.json", JSON.stringify(merge(perk_info, perk_extras)), (err) => {
-                if (err) {
-                    console.log("Failed to update perks: ", err);
-                } else {
-                    console.log("Perks updated");
-                    queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update" && git push');
-                }
-            });
-
-            let old_shrine = requireUncached('./shrine.json');
-            for (let i = 0; i < old_shrine.length; i++) {
-                old_shrine.perks[i].description = perk_info[old_shrine.perks[i].id].description;
+async function tryUpdateShrine() {
+    let new_shrine = await getShrine();
+    let old_shrine = requireUncached('./shrine');
+    if (JSON.stringify(new_shrine) !== JSON.stringify(old_shrine)) {
+        fs.writeFile("shrine.json", JSON.stringify(new_shrine), (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update"');
+                prettyLog("Shrine updated");
+                next_shrine_check = new_shrine.end;
             }
+        });
+    } else {
+        next_shrine_check = last_scan_unix + 30 * 60; // check again in 30 minutes
+    }
+}
 
-            fs.writeFile("shrine.json", JSON.stringify(old_shrine), (err) => {
-                if (err) {
-                    console.log("Failed to write shrine: ", err);
-                } else {
-                    console.log("Shrine updated with new perk descriptions");
-                    queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update" && git push');
-                }
-            });
-        })
-        .catch(err => { throw err });
+async function getShrine() {
+    let cookies = await getAuthorizedCookies();
+    let { items: shrine, endDate } = await postShrine(cookies);
+    let formatted_perks = formatShrine(shrine);
+    let end_date_unix = Math.floor(new Date(endDate).getTime() / 1000);
+    return {
+        end: end_date_unix + 30 * 60, // 30 minute buffer period
+        perks: formatted_perks
+    }
+}
 
-    // items 
-    fetch(urls["items"])
-        .then(res => res.json())
-        .then((out) => {
-            let fixed_json = '{';
-            for (let key of Object.keys(out)) {
-                if (out[key].name != null) {
-                    fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"') + '":{';
-                    fixed_json += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"')) + '"';
-                    fixed_json += "},";
-                }
+async function getAuthorizedCookies() {
+    // basic auth
+    let { headers } = await axios({
+        url: '/api/v1/auth/login/guest',
+        method: 'post',
+        baseURL: 'https://steam.live.bhvrdbd.com',
+        headers: {
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/JSON',
+            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
+            'x-kraken-content-secret-key': 'mlySUt8ePI7qofwOUG3W/9BMcrvxq/w/AJCffC+uJaw='
+        },
+        timeout: 2000,
+        responseType: 'json',
+        httpsAgent: httpsAgent
+    }).catch(function (error) {
+        console.log(error);
+        return null;
+    });
+
+    let cookies = headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
+
+    // true auth
+    let { headers: auth_headers } = await axios({
+        url: '/api/v1/auth/login/guest',
+        method: 'post',
+        baseURL: 'https://steam.live.bhvrdbd.com',
+        headers: {
+            Cookie: cookies,
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/JSON',
+            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
+            'x-kraken-content-secret-key': 'mlySUt8ePI7qofwOUG3W/9BMcrvxq/w/AJCffC+uJaw='
+        },
+        data: {
+            clientData: {
+                catalogId: '6.1.0_608327live',
+                gameContentId: '6.1.0_608327live',
+                consentId: '6.1.0_608327live'
             }
+        },
+        timeout: 2000,
+        responseType: 'json',
+        httpsAgent: httpsAgent
+    }).catch(function (error) {
+        console.log(error);
+        return null;
+    });
 
-            fixed_json = fixed_json.slice(0, -1) + "}";
+    return cookies;
+}
 
-            let item_info = JSON.parse(fixed_json);
-            let item_extras = requireUncached('./item_extras');
-
-            fs.writeFile("items.json", JSON.stringify(merge(item_info, item_extras)), (err) => {
-                if (err) {
-                    console.log("Failed to update items: ", err);
-                } else {
-                    console.log("Items updated");
-                    queued_cmds.push('git add items.json && git commit -m "Automated Items Update" && git push');
-                }
-            });
-        })
-        .catch(err => { throw err });
-
-    // addons 
-    fetch(urls["addons"])
-        .then(res => res.json())
-        .then((out) => {
-            let fixed_json = '{';
-            for (let key of Object.keys(out)) {
-                if (out[key].name != null) {
-                    let addon_name = out[key].name.replaceAll('”', '\"').replaceAll('“', '\"').replaceAll('\"', '\\\"').replaceAll("’", "'").replaceAll("&nbsp;", " ").trim();
-                    // special cases
-                    switch (addon_name) {
-                        case "Ether 15 vol%":
-                            addon_name = "Ether 15 Vol%";
-                            break;
-                        case "Emetic potion":
-                            addon_name = "Emetic Potion";
-                            break;
-                        case "Honey Locust Thorns":
-                            addon_name = "Honey Locust Thorn";
-                            break;
-                        case "Misty Day, Remains of Judgment":
-                            addon_name = "Misty Day, Remains of Judgement";
-                            break;
-                        case "High-end Sapphire lens":
-                            addon_name = "High-End Sapphire Lens";
-                            break;
-                        case "\\\"Windstorm\\\"- Mud":
-                            addon_name = "\\\"Windstorm\\\" - Mud";
-                            break;
-                        case "Waiting for You Watch":
-                            addon_name = "Waiting For You Watch";
-                            break;
-                        case "Vermillion Webcap":
-                            addon_name = "Vermilion Webcap";
-                            break;
-                        case "Rule Set No.2":
-                            addon_name = "Rules Set No.2";
-                            break;
-                        case "Tuned Carburetor":
-                            addon_name = "Tuned Carburettor";
-                            break;
-                        case "Award-Winning Chili":
-                            addon_name = "Award-Winning Chilli";
-                            break;
-                        case "Chili":
-                            addon_name = "Chilli";
-                            break;
-                        case "Rusted Chain":
-                            addon_name = "Rusted Chains";
-                            break;
-                        case "Grisly Chain":
-                            addon_name = "Grisly Chains";
-                            break;
-                        case "Granma's Heart":
-                            addon_name = "Grandma's Heart";
-                            break;
-                        case "Garish Makeup Kit":
-                            addon_name = "Garish Make-up Kit";
-                            break;
-                        case "Sulfuric Acid Vial":
-                            addon_name = "Sulphuric Acid Vial";
-                            break;
-                        case "Lo Pro Chains":
-                            addon_name = "LoPro Chains";
-                            break;
-                        case "Mew's Guts":
-                            addon_name = "Mews' Guts";
-                            break;
-                    }
-                    fixed_json += '"' + addon_name + '":{';
-                    fixed_json += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"').replaceAll("&nbsp;", " ")) + '"';
-                    fixed_json += "},";
-                }
+async function postShrine(cookies) {
+    // shrine
+    let res = await axios({
+        url: '/api/v1/extensions/shrine/getAvailable',
+        method: 'post',
+        baseURL: 'https://steam.live.bhvrdbd.com',
+        headers: {
+            Cookie: cookies,
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/JSON',
+            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
+            'x-kraken-client-platform': 'steam',
+            'x-kraken-client-provider': 'steam',
+            'x-kraken-client-version': '6.1.0'
+        },
+        data: {
+            data: {
+                version: 'steam'
             }
+        },
+        timeout: 2000,
+        responseType: 'json',
+        httpsAgent: httpsAgent
+    }).catch(function (error) {
+        console.log(error);
+        return;
+    });
 
-            fixed_json = fixed_json.slice(0, -1) + "}";
+    return res.data;
+}
 
-            let addon_info = JSON.parse(fixed_json);
-            let addon_extras = requireUncached('./addon_extras');
+async function tryUpdateRift() {
+    let out = await fetch(urls["rift"]).then(res => res.json())
 
-            fs.writeFile("addons.json", JSON.stringify(merge(addon_info, addon_extras)), (err) => {
-                if (err) {
-                    console.log("Failed to update addons: ", err);
-                } else {
-                    console.log("Addons updated");
-                    queued_cmds.push('git add addons.json && git commit -m "Automated Addons Update" && git push');
-                }
-            });
-        })
-        .catch(err => { throw err });
+    let new_rift_start = out[Object.keys(out).sort().pop()].start;
+    let old_rift = requireUncached('./rift.json');
 
-    // killers 
-    fetch(urls["killers"])
-        .then(res => res.json())
-        .then((out) => {
-            let fixed_json = '{';
-            for (let key of Object.keys(out)) {
-                if (out[key].name != null) {
-                    fixed_json += '"' + out[key].name.replaceAll('\"', '\\\"').replaceAll("’", "'") + '":{';
-                    fixed_json += '"description":"' + out[key].bio.split(".")[0].replaceAll('\"', '\\\"') + '."';
-                    fixed_json += "},";
-                }
+    if (new_rift_start >= old_rift.end) {
+        let new_rift_end = new_rift_start + 70 * 24 * 60 * 60;
+        fs.writeFile("rift.json", JSON.stringify({ end: new_rift_end + 60 * 60 }), (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update"');
+                prettyLog("Rift updated");
+                next_rift_fetch = new_rift_end + 60 * 60; // 1 hour after rift is updated
+                return true;
             }
+        });
+    } else {
+        next_rift_fetch = last_scan_unix + 30 * 60;
+        return false;
+    }
+}
 
-            fixed_json = fixed_json.slice(0, -1) + "}";
+async function tryUpdatePerks() {
+    let out = await fetch(urls["perks"]).then(res => res.json());
 
-            let killer_info = JSON.parse(fixed_json);
-            let killer_extras = requireUncached('./killer_extras');
+    let new_perks = formatPerks(out);
 
-            fs.writeFile("killers.json", JSON.stringify(merge(killer_info, killer_extras)), (err) => {
-                if (err) {
-                    console.log("Failed to update killers: ", err);
-                } else {
-                    console.log("Killers updated");
-                    queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update" && git push');
-                }
-            });
-        })
-        .catch(err => { throw err });
+    fs.writeFile("perks.json", JSON.stringify(merge(new_perks, requireUncached('./perk_extras'))), (err) => {
+        if (err) {
+            throw err;
+        } else {
+            queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update"');
+            prettyLog("Perks updated");
+        }
+    });
+}
+
+async function tryUpdateItems() {
+    let out = await fetch(urls["items"]).then(res => res.json());
+
+    let new_items = formatItems(out);
+
+    fs.writeFile("items.json", JSON.stringify(merge(new_items, requireUncached('./item_extras'))), (err) => {
+        if (err) {
+            throw err;
+        } else {
+            queued_cmds.push('git add items.json && git commit -m "Automated Items Update"');
+            prettyLog("Items updated");
+        }
+    });
+}
+
+async function tryUpdateAddons() {
+    let out = await fetch(urls["addons"]).then(res => res.json());
+
+    let new_addons = formatAddons(out);
+
+    fs.writeFile("addons.json", JSON.stringify(merge(new_addons, requireUncached('./addon_extras'))), (err) => {
+        if (err) {
+            throw err;
+        } else {
+            queued_cmds.push('git add addons.json && git commit -m "Automated Addons Update"');
+            prettyLog("Addons updated");
+        }
+    });
+}
+
+async function tryUpdateKillers() {
+    let out = await fetch(urls["killers"]).then(res => res.json());
+
+    let new_addons = formatKillers(out);
+
+    fs.writeFile("killers.json", JSON.stringify(merge(new_addons, requireUncached('./killer_extras'))), (err) => {
+        if (err) {
+            throw err;
+        } else {
+            queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update"');
+            prettyLog("Killers updated");
+        }
+    });
+}
+
+function formatShrine(perks) {
+    let perk_data_set = requireUncached('./perks');
+    perks = perks.map(function (perk) {
+        let perk_name = '';
+        let perk_data = '';
+        for (let key of Object.keys(perk_data_set)) {
+            if (perk_data_set[key].alt_name === perk.id) {
+                perk_name = key;
+                perk_data = perk_data_set[key];
+            }
+        }
+
+        if (perk_name === '') {
+            console.log('Failed to find the perk: ' + perk.id);
+            return null;
+        }
+
+        return {
+            id: perk_name,
+            description: perk_data.description,
+            url: perk_data.url,
+            img_url: perk_data.img_url
+        }
+    });
+    return perks;
+}
+
+function formatPerks(out) {
+    let fixed_perks = '{';
+    for (let key of Object.keys(out)) {
+        fixed_perks += '"' + out[key].name.replaceAll('\"', '\\\"')
+            .replaceAll("We'll make it", "We'll Make It")
+            .replaceAll("Barbecue & Chili", "Barbecue & Chilli")
+            .replaceAll("’", "'")
+            .replaceAll("&nbsp;", " ")
+            .replaceAll("Hex: Blood Favor", "Hex: Blood Favour")
+            .replaceAll("Make your Choice", "Make Your Choice")
+            .replaceAll("Play with your food", "Play with Your Food")
+            .replaceAll("Save the best for last", "Save the Best for Last")
+            .replaceAll("Deja Vu", "Déjà Vu")
+            + '":{';
+
+        // fix description
+        let description = out[key].description.replaceAll('\"', '\\\"');
+        for (let i = 0; i < out[key].tunables.length; i++) {
+            let tunable = out[key].tunables[i];
+            if (tunable.length == 3) {
+                let colored_tunable = '<span style=\\\"color:#FFD700; font-weight: bold\\\">' + out[key].tunables[i][0] +
+                    '</span>/<span style=\\\"color:#7CFC00; font-weight: bold\\\">' + out[key].tunables[i][1] +
+                    '</span>/<span style=\\\"color:#CF9FFF; font-weight: bold\\\">' + out[key].tunables[i][2] + '</span>';
+                description = description.replaceAll("{" + i.toString() + "}", colored_tunable);
+            } else {
+                description = description.replaceAll("{" + i.toString() + "}", out[key].tunables[i].join("/"));
+            }
+        }
+        description = beautify(description);
+
+        let alt_name = key;
+        if (alt_name == "Bloodhound") {
+            alt_name = "BloodHound";
+        }
+
+        fixed_perks += '"description":"' + description + '",';
+        fixed_perks += '"role": "' + out[key].role + '",';
+        fixed_perks += '"alt_name": "' + alt_name + '"';
+        fixed_perks += "},";
+    }
+
+    fixed_perks = fixed_perks.slice(0, -1) + "}";
+    return JSON.parse(fixed_perks)
+}
+
+function formatItems(out) {
+    let fixed_items = '{';
+    for (let key of Object.keys(out)) {
+        if (out[key].name != null) {
+            fixed_items += '"' + out[key].name.replaceAll('\"', '\\\"') + '":{';
+            fixed_items += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"')) + '"';
+            fixed_items += "},";
+        }
+    }
+    fixed_items = fixed_items.slice(0, -1) + "}";
+    return JSON.parse(fixed_items);
+}
+
+async function formatAddons(out) {
+    let fixed_addons = '{';
+    for (let key of Object.keys(out)) {
+        if (out[key].name != null) {
+            let addon_name = out[key].name.replaceAll('”', '\"').replaceAll('“', '\"').replaceAll('\"', '\\\"').replaceAll("’", "'").replaceAll("&nbsp;", " ").trim();
+            // special cases
+            switch (addon_name) {
+                case "Ether 15 vol%":
+                    addon_name = "Ether 15 Vol%";
+                    break;
+                case "Emetic potion":
+                    addon_name = "Emetic Potion";
+                    break;
+                case "Honey Locust Thorns":
+                    addon_name = "Honey Locust Thorn";
+                    break;
+                case "Misty Day, Remains of Judgment":
+                    addon_name = "Misty Day, Remains of Judgement";
+                    break;
+                case "High-end Sapphire lens":
+                    addon_name = "High-End Sapphire Lens";
+                    break;
+                case "\\\"Windstorm\\\"- Mud":
+                    addon_name = "\\\"Windstorm\\\" - Mud";
+                    break;
+                case "Waiting for You Watch":
+                    addon_name = "Waiting For You Watch";
+                    break;
+                case "Vermillion Webcap":
+                    addon_name = "Vermilion Webcap";
+                    break;
+                case "Rule Set No.2":
+                    addon_name = "Rules Set No.2";
+                    break;
+                case "Tuned Carburetor":
+                    addon_name = "Tuned Carburettor";
+                    break;
+                case "Award-Winning Chili":
+                    addon_name = "Award-Winning Chilli";
+                    break;
+                case "Chili":
+                    addon_name = "Chilli";
+                    break;
+                case "Rusted Chain":
+                    addon_name = "Rusted Chains";
+                    break;
+                case "Grisly Chain":
+                    addon_name = "Grisly Chains";
+                    break;
+                case "Granma's Heart":
+                    addon_name = "Grandma's Heart";
+                    break;
+                case "Garish Makeup Kit":
+                    addon_name = "Garish Make-up Kit";
+                    break;
+                case "Sulfuric Acid Vial":
+                    addon_name = "Sulphuric Acid Vial";
+                    break;
+                case "Lo Pro Chains":
+                    addon_name = "LoPro Chains";
+                    break;
+                case "Mew's Guts":
+                    addon_name = "Mews' Guts";
+                    break;
+            }
+            fixed_addons += '"' + addon_name + '":{';
+            fixed_addons += '"description":"' + beautify(out[key].description.replaceAll('\"', '\\\"').replaceAll("&nbsp;", " ")) + '"';
+            fixed_addons += "},";
+        }
+    }
+    fixed_addons = fixed_addons.slice(0, -1) + "}";
+    return JSON.parse(fixed_addons);
+}
+
+function formatKillers(out) {
+    let fixed_killers = '{';
+    for (let key of Object.keys(out)) {
+        if (out[key].name != null) {
+            fixed_killers += '"' + out[key].name.replaceAll('\"', '\\\"').replaceAll("’", "'") + '":{';
+            fixed_killers += '"description":"' + out[key].bio.split(".")[0].replaceAll('\"', '\\\"') + '."';
+            fixed_killers += "},";
+        }
+    }
+
+    fixed_killers = fixed_killers.slice(0, -1) + "}";
+    return JSON.parse(fixed_killers);
 }
 
 function beautify(description) {
@@ -463,3 +572,29 @@ function beautify(description) {
     description = description.replaceAll("_", " ");
     return description;
 }
+
+function prettyLog(message) {
+    let dateString = new Date().toISOString();
+    console.log('[' + dateString.replaceAll('T', ' ').split('.')[0] + ']:', message);
+}
+
+function isEqual(obj1, obj2) {
+    var props1 = Object.getOwnPropertyNames(obj1);
+    var props2 = Object.getOwnPropertyNames(obj2);
+    if (props1.length != props2.length) {
+        return false;
+    }
+    for (var i = 0; i < props1.length; i++) {
+        let val1 = obj1[props1[i]];
+        let val2 = obj2[props1[i]];
+        let isObjects = isObject(val1) && isObject(val2);
+        if (isObjects && !isEqual(val1, val2) || !isObjects && val1 !== val2) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isObject(a) {
+    return (!!a) && (a.constructor === Object);
+};
