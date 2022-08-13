@@ -149,7 +149,7 @@ async function getAuthorizedCookies() {
             'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
             'x-kraken-content-secret-key': 'mlySUt8ePI7qofwOUG3W/9BMcrvxq/w/AJCffC+uJaw='
         },
-        timeout: 2000,
+        timeout: 10000,
         responseType: 'json',
         httpsAgent: httpsAgent
     }).catch(function (error) {
@@ -178,7 +178,7 @@ async function getAuthorizedCookies() {
                 consentId: '6.1.0_608327live'
             }
         },
-        timeout: 2000,
+        timeout: 10000,
         responseType: 'json',
         httpsAgent: httpsAgent
     }).catch(function (error) {
@@ -209,7 +209,7 @@ async function postShrine(cookies) {
                 version: 'steam'
             }
         },
-        timeout: 2000,
+        timeout: 10000,
         responseType: 'json',
         httpsAgent: httpsAgent
     }).catch(function (error) {
