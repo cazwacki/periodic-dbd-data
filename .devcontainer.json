@@ -1,5 +1,6 @@
 {
     "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:16",
+    "containerUser": "vscode",
     "customizations": {
         "vscode": {
             "extensions": [
