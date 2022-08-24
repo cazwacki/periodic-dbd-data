@@ -139,7 +139,7 @@ async function getShrine() {
 
 async function getAuthorizedCookies() {
     // basic auth
-    let { headers } = await axios({
+    let resp = await axios({
         url: '/api/v1/auth/login/guest',
         method: 'post',
         baseURL: 'https://steam.live.bhvrdbd.com',
@@ -157,10 +157,15 @@ async function getAuthorizedCookies() {
         return null;
     });
 
-    let cookies = headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
+    if(resp === null || resp.headers === null) {
+        console.log("Received null response from DBD");
+        return null;
+    }
+
+    let cookies = resp.headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
 
     // true auth
-    let { headers: auth_headers } = await axios({
+    await axios({
         url: '/api/v1/auth/login/guest',
         method: 'post',
         baseURL: 'https://steam.live.bhvrdbd.com',
