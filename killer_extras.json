@@ -1034,5 +1034,42 @@
         "Clutch": 1,
         "Terrorizing": 1,
         "Total": 10
+    },
+    "The Mastermind": {
+        "url": "https://deadbydaylight.fandom.com/wiki/Albert_Wesker",
+        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/5/5b/FulliconPowers_virulentBound.png",
+        "addons": [
+            "Wooden Plank",
+            "Mortar and Pestle",
+            "Follower's Cowl",
+            "Caffeine Tablets",
+            "Malthinker's Skull",
+            "Haddie's Calendar",
+            "Fallen Shingle",
+            "Burnt Letters",
+            "Air Freshener",
+            "Worry Stone",
+            "War Helmet",
+            "Ottomarian Writing",
+            "Destroyed Pillow",
+            "Broken Doll",
+            "Tilling Blade",
+            "Lavalier Microphone",
+            "Field Recorder",
+            "Boat Key",
+            "Sacrificial Knife",
+            "Iridescent Wooden Plank"
+        ],
+        "Stealth": 0,
+        "Informative": 0,
+        "1V1": 4,
+        "Anti-Gens": 0,
+        "Anti-Healing": 1,
+        "Special Effects": 2,
+        "Anti-Information": 0,
+        "Map Pressure": 2,
+        "Clutch": 1,
+        "Terrorizing": 0,
+        "Total": 10
     }
 }
