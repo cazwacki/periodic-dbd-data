@@ -3061,7 +3061,7 @@
     },
     "Superior Anatomy": {
         "url": "https://deadbydaylight.fandom.com/wiki/Superior_Anatomy",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/9/98/SuperiorAnatomy.gif",
+        "img_url": "images/perks/iconPerks_SuperiorAnatomy.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 3,
@@ -3076,7 +3076,7 @@
     },
     "Awakened Awareness": {
         "url": "https://deadbydaylight.fandom.com/wiki/Awakened_Awareness",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/2/22/AwakenedAwareness.gif",
+        "img_url": "images/perks/iconPerks_AwakenedAwareness.png",
         "Stealth": 0,
         "Informative": 3,
         "1V1": 0,
@@ -3091,7 +3091,7 @@
     },
     "Terminus": {
         "url": "https://deadbydaylight.fandom.com/wiki/Terminus",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/c/c8/Terminus.gif",
+        "img_url": "images/perks/iconPerks_Terminus.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -3106,7 +3106,7 @@
     },
     "Wiretap": {
         "url": "https://deadbydaylight.fandom.com/wiki/Wiretap",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/b/b1/Wiretap.gif",
+        "img_url": "images/perks/iconPerks_Wiretap.png",
         "Cleansing": 0,
         "Informative": 3,
         "Team-Oriented": 1,
@@ -3121,7 +3121,7 @@
     },
     "Reactive Healing": {
         "url": "https://deadbydaylight.fandom.com/wiki/Reactive_Healing",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/f/f3/ReactiveHealing.gif",
+        "img_url": "images/perks/iconPerks_ReactiveHealing.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -3136,7 +3136,7 @@
     },
     "Low Profile": {
         "url": "https://deadbydaylight.fandom.com/wiki/Low_Profile",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/3/37/LowProfile.gif",
+        "img_url": "images/perks/iconPerks_LowProfile.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
@@ -3151,7 +3151,7 @@
     },
     "Better than New": {
         "url": "https://deadbydaylight.fandom.com/wiki/Better_than_New",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/d/dc/BetterThanNew.gif",
+        "img_url": "images/perks/iconPerks_BetterThanNew.png",
         "Cleansing": 1,
         "Informative": 0,
         "Team-Oriented": 3,
@@ -3166,7 +3166,7 @@
     },
     "Reassurance": {
         "url": "https://deadbydaylight.fandom.com/wiki/Reassurance",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/3/3a/Reassurance.gif",
+        "img_url": "images/perks/iconPerks_Reassurance.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 3,
@@ -3181,7 +3181,7 @@
     },
     "Hyperfocus": {
         "url": "https://deadbydaylight.fandom.com/wiki/Hyperfocus",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/d/d1/Hyperfocus.gif",
+        "img_url": "images/perks/iconPerks_Hyperfocus.png",
         "Cleansing": 0,
         "Informative": 0,
         "Team-Oriented": 0,
