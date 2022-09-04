@@ -46,15 +46,15 @@ async function tryUpdateAll() {
 
     let version_updated = false;
     if (next_version_check < last_scan_unix) {
-        version_updated = await tryUpdateVersion();
-    }
-
-    if (version_updated) {
-        await tryUpdatePerks();
-        await tryUpdateShrine(); // shrine needs new perk descriptions, if applicable
-        await tryUpdateItems();
-        await tryUpdateAddons();
-        await tryUpdateKillers();
+        version_updated = tryUpdateVersion().then(() => {
+            if (version_updated) {
+                tryUpdatePerks();
+                tryUpdateShrine(); // shrine needs new perk descriptions, if applicable
+                tryUpdateItems();
+                tryUpdateAddons();
+                tryUpdateKillers();
+            }
+        });
     }
 
     if (next_rift_fetch < last_scan_unix) {
@@ -282,7 +282,7 @@ async function tryUpdateItems() {
 async function tryUpdateAddons() {
     let out = await fetch(urls["addons"]).then(res => res.json());
 
-    let new_addons = formatAddons(out);
+    let new_addons = await formatAddons(out);
 
     fs.writeFile("addons.json", JSON.stringify(merge(new_addons, requireUncached('./addon_extras'))), (err) => {
         if (err) {
