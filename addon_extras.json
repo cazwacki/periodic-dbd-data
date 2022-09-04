@@ -9211,7 +9211,7 @@
     },
     "Jewel Beetle": {
         "url": "https://deadbydaylight.fandom.com/wiki/Jewel_Beetle",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/4/47/FulliconAddon_jewelBeetle.png",
+        "img_url": "images/addons/iconAddon_jewelBeetle.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": -1,
@@ -9226,7 +9226,7 @@
     },
     "Unicorn Medallion": {
         "url": "https://deadbydaylight.fandom.com/wiki/Unicorn_Medallion",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/6/6e/FulliconAddon_unicornMedallion.png",
+        "img_url": "images/addons/iconAddon_unicornMedallion.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9241,7 +9241,7 @@
     },
     "R.P.D. Shoulder Walkie": {
         "url": "https://deadbydaylight.fandom.com/wiki/R.P.D._Shoulder_Walkie",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/f/ff/FulliconAddon_RPDShoulderWalkie.png",
+        "img_url": "images/addons/iconAddon_RPDShoulderWalkie.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9256,7 +9256,7 @@
     },
     "Uroboros Tendril": {
         "url": "https://deadbydaylight.fandom.com/wiki/Uroboros_Tendril",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/5/54/FulliconAddon_uroborosTendril.png",
+        "img_url": "images/addons/iconAddon_uroborosTendril.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9271,7 +9271,7 @@
     },
     "Loose Crank": {
         "url": "https://deadbydaylight.fandom.com/wiki/Loose_Crank",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/0/01/FulliconAddon_looseCrank.png",
+        "img_url": "images/addons/iconAddon_looseCrank.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9286,7 +9286,7 @@
     },
     "Leather Gloves": {
         "url": "https://deadbydaylight.fandom.com/wiki/Leather_Gloves",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/4/4a/FulliconAddon_leatherGloves.png",
+        "img_url": "images/addons/iconAddon_leatherGloves.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9301,7 +9301,7 @@
     },
     "Lion Medallion": {
         "url": "https://deadbydaylight.fandom.com/wiki/Lion_Medallion",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/d/d3/FulliconAddon_lionMedallion.png",
+        "img_url": "images/addons/iconAddon_lionMedallion.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -9316,7 +9316,7 @@
     },
     "Chalice (Gold)": {
         "url": "https://deadbydaylight.fandom.com/wiki/Chalice_(Gold)",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/a/aa/FulliconAddon_chaliceGold.png",
+        "img_url": "images/addons/iconAddon_goldChalice.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -9331,7 +9331,7 @@
     },
     "Bullhorn": {
         "url": "https://deadbydaylight.fandom.com/wiki/Bullhorn",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/d/d6/FulliconAddon_bullhorn.png",
+        "img_url": "images/addons/iconAddon_bullhorn.png",
         "Stealth": 1,
         "Informative": 0,
         "1V1": 0,
@@ -9346,7 +9346,7 @@
     },
     "Portable Safe": {
         "url": "https://deadbydaylight.fandom.com/wiki/Portable_Safe",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/b/b0/FulliconAddon_portableSafe.png",
+        "img_url": "images/addons/iconAddon_portableSafe.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -9361,7 +9361,7 @@
     },
     "Red Herb": {
         "url": "https://deadbydaylight.fandom.com/wiki/Red_Herb",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/1/10/FulliconAddon_redHerb.png",
+        "img_url": "images/addons/iconAddon_redHerb.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9376,7 +9376,7 @@
     },
     "Maiden Medallion": {
         "url": "https://deadbydaylight.fandom.com/wiki/Maiden_Medallion",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/5/5c/FulliconAddon_maidenMedallion.png",
+        "img_url": "images/addons/iconAddon_maidenMedalliom.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9391,7 +9391,7 @@
     },
     "Video Conference Device": {
         "url": "https://deadbydaylight.fandom.com/wiki/Video_Conference_Device",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/b/b0/FulliconAddon_videoConferenceDevice.png",
+        "img_url": "images/addons/iconAddon_videoConferenceDevice.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9406,7 +9406,7 @@
     },
     "Egg (Gold)": {
         "url": "https://deadbydaylight.fandom.com/wiki/Egg_(Gold)",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/a/a5/FulliconAddon_eggGold.png",
+        "img_url": "images/addons/iconAddon_goldenEgg.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -9421,7 +9421,7 @@
     },
     "Dark Sunglasses": {
         "url": "https://deadbydaylight.fandom.com/wiki/Dark_Sunglasses",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/0/00/FulliconAddon_darkSunglasses.png",
+        "img_url": "images/addons/iconAddon_darkSunglasses.png",
         "Stealth": 3,
         "Informative": 0,
         "1V1": 0,
@@ -9436,7 +9436,7 @@
     },
     "Green Herb": {
         "url": "https://deadbydaylight.fandom.com/wiki/Green_Herb",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/a/ae/FulliconAddon_greenHerb.png",
+        "img_url": "images/addons/iconAddon_greenHerb.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9451,7 +9451,7 @@
     },
     "Helicopter Stick": {
         "url": "https://deadbydaylight.fandom.com/wiki/Helicopter_Stick",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/4/4d/FulliconAddon_helicopterStick.png",
+        "img_url": "images/addons/iconAddon_helicopterStick.png",
         "Stealth": 0,
         "Informative": 3,
         "1V1": 0,
@@ -9466,7 +9466,7 @@
     },
     "Uroboros Virus": {
         "url": "https://deadbydaylight.fandom.com/wiki/Uroboros_Virus",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/b/b3/FulliconAddon_uroborosVirus.png",
+        "img_url": "images/addons/iconAddon_uroborosTendril.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 0,
@@ -9481,7 +9481,7 @@
     },
     "Lab Photo": {
         "url": "https://deadbydaylight.fandom.com/wiki/Lab_Photo",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/d/d1/FulliconAddon_labPhoto.png",
+        "img_url": "images/addons/iconAddon_labPhoto.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9496,7 +9496,7 @@
     },
     "Iridescent Uroboros Vial": {
         "url": "https://deadbydaylight.fandom.com/wiki/Iridescent_Uroboros_Vial",
-        "img_url": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/8/87/FulliconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
