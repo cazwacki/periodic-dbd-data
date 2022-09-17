@@ -70,16 +70,16 @@ async function tryUpdateAll() {
 function tryPushUpdates() {
     // execute any needed git pushes
     if (queued_cmds.length > 0) {
-        let command = queued_cmds.join(' && ');
-        command += ' && git push';
+        let command = queued_cmds.join('; ');
+        command += '; git push';
         exec(command, (err, stdout, stderr) => {
             if (!err) {
-                console.log('Executed: "', command, '"');
+                prettyLog('tryPushUpdates()\texecuted: "', command, '"');
+                queued_cmds = [];
             } else {
-                console.log(err);
+                prettyLog(err);
             }
         });
-        queued_cmds = [];
     }
 }
 
@@ -97,12 +97,13 @@ async function tryUpdateVersion() {
                 throw err;
             } else {
                 queued_cmds.push('git add version.json && git commit -m "Automated Version Update"');
-                prettyLog("Version updated");
+                prettyLog("tryUpdateVersion()\tversion updated");
                 next_version_check = last_scan_unix + 24 * 60 * 60; // next day
                 return true;
             }
         });
     } else {
+        prettyLog("tryUpdateVersion()\tno new version");
         next_version_check = last_scan_unix + 30 * 60;
         return false;
     }
@@ -117,29 +118,34 @@ async function tryUpdateShrine() {
                 throw err;
             } else {
                 queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update"');
-                prettyLog("Shrine updated");
+                prettyLog("tryUpdateShrine()\tshrine data updated and commit added to the queue");
                 next_shrine_check = new_shrine.end;
             }
         });
     } else {
+        prettyLog("tryUpdateShrine()\tno new shrine data");
         next_shrine_check = last_scan_unix + 30 * 60; // check again in 30 minutes
     }
 }
 
 async function getShrine() {
     let cookies = await getAuthorizedCookies();
-    let { items: shrine, endDate } = await postShrine(cookies);
-    let formatted_perks = formatShrine(shrine);
-    let end_date_unix = Math.floor(new Date(endDate).getTime() / 1000);
-    return {
-        end: end_date_unix + 30 * 60, // 30 minute buffer period
-        perks: formatted_perks
+    if(cookies != null) {
+        let { items: shrine, endDate } = await postShrine(cookies);
+        let formatted_perks = formatShrine(shrine);
+        let end_date_unix = Math.floor(new Date(endDate).getTime() / 1000);
+        return {
+            end: end_date_unix + 30 * 60, // 30 minute buffer period
+            perks: formatted_perks
+        }
+    } else {
+        prettyLog("getShrine()\tcookies were null!")
     }
 }
 
 async function getAuthorizedCookies() {
     // basic auth
-    let resp = await axios({
+    let basic_auth = await axios({
         url: '/api/v1/auth/login/guest',
         method: 'post',
         baseURL: 'https://steam.live.bhvrdbd.com',
@@ -153,19 +159,24 @@ async function getAuthorizedCookies() {
         responseType: 'json',
         httpsAgent: httpsAgent
     }).catch(function (error) {
-        console.log(error);
+        prettyLog(error);
         return null;
     });
 
-    if(resp === null || resp.headers === null) {
-        console.log("Received null response from DBD");
+    if(basic_auth === null || basic_auth.headers === null) {
+        prettyLog("getAuthorizedCookies()\treceived null response during basic authorization");
         return null;
     }
 
-    let cookies = resp.headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
+    if(basic_auth.status / 100 != 2) {
+        prettyLog("getAuthorizedCookies()\tdid not get 200 during basic authorization; status code was", basic_auth.status);
+        return null;
+    }
+
+    let cookies = basic_auth.headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
 
     // true auth
-    await axios({
+    let true_auth = await axios({
         url: '/api/v1/auth/login/guest',
         method: 'post',
         baseURL: 'https://steam.live.bhvrdbd.com',
@@ -190,6 +201,16 @@ async function getAuthorizedCookies() {
         console.log(error);
         return null;
     });
+
+    if(true_auth === null || true_auth.headers === null) {
+        prettyLog("getAuthorizedCookies()\treceived null response during true authorization");
+        return null;
+    }
+
+    if(true_auth.status / 100 != 2) {
+        prettyLog("getAuthorizedCookies()\tdid not get 200 during true authorization; status code was", true_auth.status);
+        return null;
+    }
 
     return cookies;
 }
@@ -238,7 +259,7 @@ async function tryUpdateRift() {
                 throw err;
             } else {
                 queued_cmds.push('git add rift.json && git commit -m "Automated Rift Update"');
-                prettyLog("Rift updated");
+                prettyLog("tryUpdateRift()\trift data updated and commit added to the queue");
                 next_rift_fetch = new_rift_end + 60 * 60; // 1 hour after rift is updated
                 return true;
             }
@@ -251,62 +272,89 @@ async function tryUpdateRift() {
 
 async function tryUpdatePerks() {
     let out = await fetch(urls["perks"]).then(res => res.json());
-
     let new_perks = formatPerks(out);
+    let new_perks_json = JSON.stringify(merge(new_perks, requireUncached('./perk_extras')));
 
-    fs.writeFile("perks.json", JSON.stringify(merge(new_perks, requireUncached('./perk_extras'))), (err) => {
-        if (err) {
-            throw err;
-        } else {
-            queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update"');
-            prettyLog("Perks updated");
-        }
-    });
+    let old_perks_json = JSON.stringify(requireUncached('./perks.json'));
+
+    if(old_perks_json != new_perks_json) {
+        fs.writeFile("perks.json", new_perks_json, (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add perks.json && git commit -m "Automated Perks Update"');
+                prettyLog("tryUpdatePerks() \tperk data updated and commit added to the queue");
+            }
+        });
+    } else {
+        prettyLog("tryUpdatePerks() \tno new perk data");
+    }
 }
+
+const findFirstDiff = (str1, str2) =>
+  str2[[...str1].findIndex((el, index) => el !== str2[index])];
 
 async function tryUpdateItems() {
     let out = await fetch(urls["items"]).then(res => res.json());
-
     let new_items = formatItems(out);
+    let new_items_json = JSON.stringify(merge(new_items, requireUncached('./item_extras')));
 
-    fs.writeFile("items.json", JSON.stringify(merge(new_items, requireUncached('./item_extras'))), (err) => {
-        if (err) {
-            throw err;
-        } else {
-            queued_cmds.push('git add items.json && git commit -m "Automated Items Update"');
-            prettyLog("Items updated");
-        }
-    });
+    let old_items_json = JSON.stringify('./items.json');
+
+    if(old_items_json != new_items_json) {
+        fs.writeFile("items.json", new_items_json, (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add items.json && git commit -m "Automated Items Update"');
+                prettyLog("tryUpdateItems() \titem data updated and commit added to the queue");
+            }
+        });
+    } else {
+        prettyLog("tryUpdateItems() \tno new item data");
+    }
 }
 
 async function tryUpdateAddons() {
     let out = await fetch(urls["addons"]).then(res => res.json());
-
     let new_addons = await formatAddons(out);
+    let new_addons_json = JSON.stringify(merge(new_addons, requireUncached('./addon_extras')));
 
-    fs.writeFile("addons.json", JSON.stringify(merge(new_addons, requireUncached('./addon_extras'))), (err) => {
-        if (err) {
-            throw err;
-        } else {
-            queued_cmds.push('git add addons.json && git commit -m "Automated Addons Update"');
-            prettyLog("Addons updated");
-        }
-    });
+    let old_addons_json = JSON.stringify(requireUncached('./addons.json'));
+
+    if(old_addons_json != new_addons_json) {
+        fs.writeFile("addons.json", new_addons_json, (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add addons.json && git commit -m "Automated Addons Update"');
+                prettyLog("tryUpdateAddons()\taddon data updated and commit added to the queue");
+            }
+        });
+    } else {
+        prettyLog("tryUpdateAddons()\tno new addon data");
+    }
 }
 
 async function tryUpdateKillers() {
     let out = await fetch(urls["killers"]).then(res => res.json());
-
     let new_addons = formatKillers(out);
+    let new_killers_json = JSON.stringify(merge(new_addons, requireUncached('./killer_extras')));
 
-    fs.writeFile("killers.json", JSON.stringify(merge(new_addons, requireUncached('./killer_extras'))), (err) => {
-        if (err) {
-            throw err;
-        } else {
-            queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update"');
-            prettyLog("Killers updated");
+    let old_killers_json = JSON.stringify(requireUncached('./killers.json'));
+
+    if(old_killers_json != new_killers_json) {
+        fs.writeFile("killers.json", new_killers_json), (err) => {
+            if (err) {
+                throw err;
+            } else {
+                queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update"');
+                prettyLog("tryUpdateKillers()\tkiller data updated and commit added to the queue");
+            }
         }
-    });
+    } else {
+        prettyLog("tryUpdateKillers()\tno new killer data");
+    }
 }
 
 function formatShrine(perks) {
@@ -322,7 +370,7 @@ function formatShrine(perks) {
         }
 
         if (perk_name === '') {
-            console.log('Failed to find the perk: ' + perk.id);
+            prettyLog('formatShrine()\tFailed to find the perk: ' + perk.id);
             return null;
         }
 
