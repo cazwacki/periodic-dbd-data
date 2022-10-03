@@ -130,7 +130,7 @@ async function tryUpdateShrine() {
 
 async function getShrine() {
     let cookies = await getAuthorizedCookies();
-    if(cookies != null) {
+    if (cookies != null) {
         let { items: shrine, endDate } = await postShrine(cookies);
         let formatted_perks = formatShrine(shrine);
         let end_date_unix = Math.floor(new Date(endDate).getTime() / 1000);
@@ -163,12 +163,12 @@ async function getAuthorizedCookies() {
         return null;
     });
 
-    if(basic_auth === null || basic_auth.headers === null) {
+    if (basic_auth === null || basic_auth.headers === null) {
         prettyLog("getAuthorizedCookies()\treceived null response during basic authorization");
         return null;
     }
 
-    if(basic_auth.status / 100 != 2) {
+    if (basic_auth.status / 100 != 2) {
         prettyLog("getAuthorizedCookies()\tdid not get 200 during basic authorization; status code was", basic_auth.status);
         return null;
     }
@@ -202,12 +202,12 @@ async function getAuthorizedCookies() {
         return null;
     });
 
-    if(true_auth === null || true_auth.headers === null) {
+    if (true_auth === null || true_auth.headers === null) {
         prettyLog("getAuthorizedCookies()\treceived null response during true authorization");
         return null;
     }
 
-    if(true_auth.status / 100 != 2) {
+    if (true_auth.status / 100 != 2) {
         prettyLog("getAuthorizedCookies()\tdid not get 200 during true authorization; status code was", true_auth.status);
         return null;
     }
@@ -248,6 +248,10 @@ async function postShrine(cookies) {
 
 async function tryUpdateRift() {
     let out = await fetch(urls["rift"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
 
     let new_rift_start = out[Object.keys(out).sort().pop()].start;
     let old_rift = requireUncached('./rift.json');
@@ -271,13 +275,17 @@ async function tryUpdateRift() {
 }
 
 async function tryUpdatePerks() {
-    let out = await fetch(urls["perks"]).then(res => res.json());
+    let out = await fetch(urls["perks"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
     let new_perks = formatPerks(out);
     let new_perks_json = JSON.stringify(merge(new_perks, requireUncached('./perk_extras')));
 
     let old_perks_json = JSON.stringify(requireUncached('./perks.json'));
 
-    if(old_perks_json != new_perks_json) {
+    if (old_perks_json != new_perks_json) {
         fs.writeFile("perks.json", new_perks_json, (err) => {
             if (err) {
                 throw err;
@@ -292,16 +300,20 @@ async function tryUpdatePerks() {
 }
 
 const findFirstDiff = (str1, str2) =>
-  str2[[...str1].findIndex((el, index) => el !== str2[index])];
+    str2[[...str1].findIndex((el, index) => el !== str2[index])];
 
 async function tryUpdateItems() {
-    let out = await fetch(urls["items"]).then(res => res.json());
+    let out = await fetch(urls["items"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
     let new_items = formatItems(out);
     let new_items_json = JSON.stringify(merge(new_items, requireUncached('./item_extras')));
 
     let old_items_json = JSON.stringify('./items.json');
 
-    if(old_items_json != new_items_json) {
+    if (old_items_json != new_items_json) {
         fs.writeFile("items.json", new_items_json, (err) => {
             if (err) {
                 throw err;
@@ -316,13 +328,17 @@ async function tryUpdateItems() {
 }
 
 async function tryUpdateAddons() {
-    let out = await fetch(urls["addons"]).then(res => res.json());
+    let out = await fetch(urls["addons"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
     let new_addons = await formatAddons(out);
     let new_addons_json = JSON.stringify(merge(new_addons, requireUncached('./addon_extras')));
 
     let old_addons_json = JSON.stringify(requireUncached('./addons.json'));
 
-    if(old_addons_json != new_addons_json) {
+    if (old_addons_json != new_addons_json) {
         fs.writeFile("addons.json", new_addons_json, (err) => {
             if (err) {
                 throw err;
@@ -337,13 +353,17 @@ async function tryUpdateAddons() {
 }
 
 async function tryUpdateKillers() {
-    let out = await fetch(urls["killers"]).then(res => res.json());
+    let out = await fetch(urls["killers"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
     let new_addons = formatKillers(out);
     let new_killers_json = JSON.stringify(merge(new_addons, requireUncached('./killer_extras')));
 
     let old_killers_json = JSON.stringify(requireUncached('./killers.json'));
 
-    if(old_killers_json != new_killers_json) {
+    if (old_killers_json != new_killers_json) {
         fs.writeFile("killers.json", new_killers_json), (err) => {
             if (err) {
                 throw err;
