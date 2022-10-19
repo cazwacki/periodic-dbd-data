@@ -116,7 +116,10 @@ async function tryUpdateShrine() {
             console.log(error);
             return;
         });
-    let new_shrine = formatShrine(out.perks);
+    console.log(out);
+    let new_shrine = {};
+    new_shrine["end"] = out.end;
+    new_shrine["perks"] = formatShrine(out.perks);
     let new_shrine_json = JSON.stringify(new_shrine);
 
     let old_shrine_json = JSON.stringify(requireUncached('./shrine.json'));
@@ -131,7 +134,7 @@ async function tryUpdateShrine() {
             }
         });
     } else {
-        prettyLog("tryUpdateShrine() \tno new perk data");
+        prettyLog("tryUpdateShrine() \tno new shrine data");
     }
 }
 
