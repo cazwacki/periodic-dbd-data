@@ -116,7 +116,6 @@ async function tryUpdateShrine() {
             console.log(error);
             return;
         });
-    console.log(out);
     let new_shrine = formatShrine(out.perks);
     let new_shrine_json = JSON.stringify(new_shrine);
 
@@ -134,124 +133,6 @@ async function tryUpdateShrine() {
     } else {
         prettyLog("tryUpdateShrine() \tno new perk data");
     }
-}
-
-async function getShrine() {
-    let cookies = await getAuthorizedCookies();
-    if (cookies != null) {
-        let { items: shrine, endDate } = await postShrine(cookies);
-        let formatted_perks = formatShrine(shrine);
-        let end_date_unix = Math.floor(new Date(endDate).getTime() / 1000);
-        return {
-            end: end_date_unix + 30 * 60, // 30 minute buffer period
-            perks: formatted_perks
-        }
-    } else {
-        prettyLog("getShrine()\tcookies were null!")
-    }
-}
-
-async function getAuthorizedCookies() {
-    // basic auth
-    let basic_auth = await axios({
-        url: '/api/v1/auth/login/guest',
-        method: 'post',
-        baseURL: 'https://steam.live.bhvrdbd.com',
-        headers: {
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/JSON',
-            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
-            'x-kraken-content-secret-key': 'mlySUt8ePI7qofwOUG3W/9BMcrvxq/w/AJCffC+uJaw='
-        },
-        timeout: 10000,
-        responseType: 'json',
-        httpsAgent: httpsAgent
-    }).catch(function (error) {
-        prettyLog(error);
-        return null;
-    });
-
-    if (basic_auth === null || basic_auth.headers === null) {
-        prettyLog("getAuthorizedCookies()\treceived null response during basic authorization");
-        return null;
-    }
-
-    if (basic_auth.status / 100 != 2) {
-        prettyLog("getAuthorizedCookies()\tdid not get 200 during basic authorization; status code was", basic_auth.status);
-        return null;
-    }
-
-    let cookies = basic_auth.headers['set-cookie'].map(string => string.split(';')[0]).join('; ');
-
-    // true auth
-    let true_auth = await axios({
-        url: '/api/v1/auth/login/guest',
-        method: 'post',
-        baseURL: 'https://steam.live.bhvrdbd.com',
-        headers: {
-            Cookie: cookies,
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/JSON',
-            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
-            'x-kraken-content-secret-key': 'mlySUt8ePI7qofwOUG3W/9BMcrvxq/w/AJCffC+uJaw='
-        },
-        data: {
-            clientData: {
-                catalogId: '6.1.0_608327live',
-                gameContentId: '6.1.0_608327live',
-                consentId: '6.1.0_608327live'
-            }
-        },
-        timeout: 10000,
-        responseType: 'json',
-        httpsAgent: httpsAgent
-    }).catch(function (error) {
-        console.log(error);
-        return null;
-    });
-
-    if (true_auth === null || true_auth.headers === null) {
-        prettyLog("getAuthorizedCookies()\treceived null response during true authorization");
-        return null;
-    }
-
-    if (true_auth.status / 100 != 2) {
-        prettyLog("getAuthorizedCookies()\tdid not get 200 during true authorization; status code was", true_auth.status);
-        return null;
-    }
-
-    return cookies;
-}
-
-async function postShrine(cookies) {
-    // shrine
-    let res = await axios({
-        url: '/api/v1/extensions/shrine/getAvailable',
-        method: 'post',
-        baseURL: 'https://steam.live.bhvrdbd.com',
-        headers: {
-            Cookie: cookies,
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/JSON',
-            'User-Agent': 'DeadByDaylight/++DeadByDaylight+Live-CL-134729 Windows/10.0.19587.1.256.64bit',
-            'x-kraken-client-platform': 'steam',
-            'x-kraken-client-provider': 'steam',
-            'x-kraken-client-version': '6.1.0'
-        },
-        data: {
-            data: {
-                version: 'steam'
-            }
-        },
-        timeout: 10000,
-        responseType: 'json',
-        httpsAgent: httpsAgent
-    }).catch(function (error) {
-        console.log(error);
-        return;
-    });
-
-    return res.data;
 }
 
 async function tryUpdateRift() {
