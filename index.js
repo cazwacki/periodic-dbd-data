@@ -10,6 +10,7 @@ const httpsAgent = new https.Agent({ keepAlive: true });
 
 let urls = {
     "addons": "https://dbd.tricky.lol/api/addons",
+    "shrine": "https://dbd.tricky.lol/api/shrine",
     "items": "https://dbd.tricky.lol/api/items",
     "killers": "https://dbd.tricky.lol/api/characters?role=killer",
     "perks": "https://dbd.tricky.lol/api/perks",
@@ -110,21 +111,28 @@ async function tryUpdateVersion() {
 }
 
 async function tryUpdateShrine() {
-    let new_shrine = await getShrine();
-    let old_shrine = requireUncached('./shrine');
-    if (JSON.stringify(new_shrine) !== JSON.stringify(old_shrine)) {
-        fs.writeFile("shrine.json", JSON.stringify(new_shrine), (err) => {
+    let out = await fetch(urls["shrine"]).then(res => res.json())
+        .catch(function (error) {
+            console.log(error);
+            return;
+        });
+    console.log(out);
+    let new_shrine = formatShrine(out.perks);
+    let new_shrine_json = JSON.stringify(new_shrine);
+
+    let old_shrine_json = JSON.stringify(requireUncached('./shrine.json'));
+
+    if (old_shrine_json != new_shrine_json) {
+        fs.writeFile("shrine.json", new_shrine_json, (err) => {
             if (err) {
                 throw err;
             } else {
                 queued_cmds.push('git add shrine.json && git commit -m "Automated Shrine Update"');
-                prettyLog("tryUpdateShrine()\tshrine data updated and commit added to the queue");
-                next_shrine_check = new_shrine.end;
+                prettyLog("tryUpdateShrine() \shrine data updated and commit added to the queue");
             }
         });
     } else {
-        prettyLog("tryUpdateShrine()\tno new shrine data");
-        next_shrine_check = last_scan_unix + 30 * 60; // check again in 30 minutes
+        prettyLog("tryUpdateShrine() \tno new perk data");
     }
 }
 
