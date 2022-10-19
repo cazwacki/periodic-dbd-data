@@ -116,7 +116,6 @@ async function tryUpdateShrine() {
             console.log(error);
             return;
         });
-    console.log(out);
     let new_shrine = {};
     new_shrine["end"] = out.end;
     new_shrine["perks"] = formatShrine(out.perks);
