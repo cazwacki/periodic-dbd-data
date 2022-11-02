@@ -85,7 +85,16 @@ function tryPushUpdates() {
 }
 
 async function tryUpdateVersion() {
-    let out = await fetch(urls["version"]).then(res => res.json());
+    let out = await fetch(urls["version"]).then(res => res.json())
+        .catch(function (error) {
+            prettyLog("The following error occurred while fetching version data.")
+            console.log(error);
+            return null;
+        });
+
+    if (out == null) {
+        return;
+    }
 
     let saved_version = requireUncached('./version.json');
     let latest_version = Object.keys(out.availableVersions)
@@ -113,9 +122,14 @@ async function tryUpdateVersion() {
 async function tryUpdateShrine() {
     let out = await fetch(urls["shrine"]).then(res => res.json())
         .catch(function (error) {
+            prettyLog("The following error occurred while fetching killer data.")
             console.log(error);
-            return;
+            return null;
         });
+
+    if (out == null) {
+        return;
+    }
     let new_shrine = {};
     new_shrine["end"] = out.end;
     new_shrine["perks"] = formatShrine(out.perks);
@@ -141,9 +155,14 @@ async function tryUpdateShrine() {
 async function tryUpdateRift() {
     let out = await fetch(urls["rift"]).then(res => res.json())
         .catch(function (error) {
+            prettyLog("The following error occurred while fetching rift data.")
             console.log(error);
-            return;
+            return null;
         });
+
+    if (out == null) {
+        return;
+    }
 
     let new_rift_start = out[Object.keys(out).sort().pop()].start;
     let old_rift = requireUncached('./rift.json');
@@ -197,9 +216,14 @@ const findFirstDiff = (str1, str2) =>
 async function tryUpdateItems() {
     let out = await fetch(urls["items"]).then(res => res.json())
         .catch(function (error) {
+            prettyLog("The following error occurred while fetching item data.")
             console.log(error);
-            return;
+            return null;
         });
+
+    if (out == null) {
+        return;
+    }
     let new_items = formatItems(out);
     let new_items_json = JSON.stringify(merge(new_items, requireUncached('./item_extras')));
 
@@ -222,9 +246,14 @@ async function tryUpdateItems() {
 async function tryUpdateAddons() {
     let out = await fetch(urls["addons"]).then(res => res.json())
         .catch(function (error) {
+            prettyLog("The following error occurred while fetching addon data.")
             console.log(error);
-            return;
+            return null;
         });
+
+    if (out == null) {
+        return;
+    }
     let new_addons = await formatAddons(out);
     let new_addons_json = JSON.stringify(merge(new_addons, requireUncached('./addon_extras')));
 
@@ -247,9 +276,15 @@ async function tryUpdateAddons() {
 async function tryUpdateKillers() {
     let out = await fetch(urls["killers"]).then(res => res.json())
         .catch(function (error) {
+            prettyLog("The following error occurred while fetching killer data.")
             console.log(error);
-            return;
+            return null;
         });
+
+    if (out == null) {
+        return;
+    }
+
     let new_addons = formatKillers(out);
     let new_killers_json = JSON.stringify(merge(new_addons, requireUncached('./killer_extras')));
 
