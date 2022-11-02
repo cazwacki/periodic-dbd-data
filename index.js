@@ -134,6 +134,7 @@ async function tryUpdateShrine() {
         });
     } else {
         prettyLog("tryUpdateShrine() \tno new shrine data");
+        next_shrine_fetch += 30 * 60 * 1000; // try in half an hour
     }
 }
 
@@ -255,14 +256,14 @@ async function tryUpdateKillers() {
     let old_killers_json = JSON.stringify(requireUncached('./killers.json'));
 
     if (old_killers_json != new_killers_json) {
-        fs.writeFile("killers.json", new_killers_json), (err) => {
+        fs.writeFile("killers.json", new_killers_json, (err) => {
             if (err) {
                 throw err;
             } else {
                 queued_cmds.push('git add killers.json && git commit -m "Automated Killers Update"');
                 prettyLog("tryUpdateKillers()\tkiller data updated and commit added to the queue");
             }
-        }
+        });
     } else {
         prettyLog("tryUpdateKillers()\tno new killer data");
     }
