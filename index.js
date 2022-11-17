@@ -89,6 +89,7 @@ async function tryUpdateVersion() {
         .catch(function (error) {
             prettyLog("The following error occurred while fetching version data.")
             console.log(error);
+            next_version_check = last_scan_unix + 60 * 60;
             return null;
         });
 
@@ -114,7 +115,7 @@ async function tryUpdateVersion() {
         });
     } else {
         prettyLog("tryUpdateVersion()\tno new version");
-        next_version_check = last_scan_unix + 30 * 60;
+        next_version_check = last_scan_unix + 60 * 60;
         return false;
     }
 }
@@ -122,8 +123,9 @@ async function tryUpdateVersion() {
 async function tryUpdateShrine() {
     let out = await fetch(urls["shrine"]).then(res => res.json())
         .catch(function (error) {
-            prettyLog("The following error occurred while fetching killer data.")
+            prettyLog("The following error occurred while fetching shrine data.")
             console.log(error);
+            next_shrine_fetch = last_scan_unix + 60 * 60;
             return null;
         });
 
@@ -148,7 +150,7 @@ async function tryUpdateShrine() {
         });
     } else {
         prettyLog("tryUpdateShrine() \tno new shrine data");
-        next_shrine_fetch += 30 * 60 * 1000; // try in half an hour
+        next_shrine_fetch = last_scan_unix + 60 * 60;
     }
 }
 
@@ -157,6 +159,7 @@ async function tryUpdateRift() {
         .catch(function (error) {
             prettyLog("The following error occurred while fetching rift data.")
             console.log(error);
+            next_rift_fetch = last_scan_unix + 60 * 60;
             return null;
         });
 
@@ -180,7 +183,7 @@ async function tryUpdateRift() {
             }
         });
     } else {
-        next_rift_fetch = last_scan_unix + 30 * 60;
+        next_rift_fetch = last_scan_unix + 60 * 60;
         return false;
     }
 }
