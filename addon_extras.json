@@ -9511,7 +9511,7 @@
     },
     "Tattered Tabard": {
         "url": "https://deadbydaylight.fandom.com/wiki/Tattered_Tabard",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_TatteredTabard.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9526,7 +9526,7 @@
     },
     "Pillaged Mead": {
         "url": "https://deadbydaylight.fandom.com/wiki/Pillaged_Mead",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_PillagedMead.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9541,7 +9541,7 @@
     },
     "Map of the Realm": {
         "url": "https://deadbydaylight.fandom.com/wiki/Map_of_the_Realm",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_MapoftheRealms.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9556,7 +9556,7 @@
     },
     "Gritty Lump": {
         "url": "https://deadbydaylight.fandom.com/wiki/Gritty_Lump",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_GrittyLump.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9571,7 +9571,7 @@
     },
     "Treated Blade": {
         "url": "https://deadbydaylight.fandom.com/wiki/Treated_Blade",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_TreatedBlade.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9586,7 +9586,7 @@
     },
     "Dried Horsemeat": {
         "url": "https://deadbydaylight.fandom.com/wiki/Dried_Horsemeat",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_DriedHorsemeat.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -9601,7 +9601,7 @@
     },
     "Cold Steel Manacles": {
         "url": "https://deadbydaylight.fandom.com/wiki/Cold_Steel_Manacles",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_ColdSteelManacles.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9616,7 +9616,7 @@
     },
     "Call to Arms": {
         "url": "https://deadbydaylight.fandom.com/wiki/Call_To_Arms",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_CallToArms.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9631,7 +9631,7 @@
     },
     "Battle Axe Head": {
         "url": "https://deadbydaylight.fandom.com/wiki/Battle_Axe_Head",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_BattleaxeHead.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9646,7 +9646,7 @@
     },
     "Town Watch's Torch": {
         "url": "https://deadbydaylight.fandom.com/wiki/Town_Watch%27s_Torch",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_TownWatctTorch.png",
         "Stealth": 2,
         "Informative": 0,
         "1V1": 0,
@@ -9661,7 +9661,7 @@
     },
     "Ironworker's Tongs": {
         "url": "https://deadbydaylight.fandom.com/wiki/Ironworker%27s_Tongs",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_IronworkerTongs.png",
         "Stealth": 2,
         "Informative": 0,
         "1V1": 1,
@@ -9676,7 +9676,7 @@
     },
     "Grim Iron Mask": {
         "url": "https://deadbydaylight.fandom.com/wiki/Grim_Iron_Mask",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_GrimIronMask.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9691,7 +9691,7 @@
     },
     "Chain Mail Fragment": {
         "url": "https://deadbydaylight.fandom.com/wiki/Chain_Mail_Fragment",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_ChainmailFragment.png",
         "Stealth": 0,
         "Informative": 1,
         "1V1": 0,
@@ -9706,7 +9706,7 @@
     },
     "Broken Hilt": {
         "url": "https://deadbydaylight.fandom.com/wiki/Broken_Hilt",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_BrokenHilt.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 0,
@@ -9721,7 +9721,7 @@
     },
     "Lightweight Greaves": {
         "url": "https://deadbydaylight.fandom.com/wiki/Lightweight_Greaves",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_LightweightGreaves.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 2,
@@ -9736,7 +9736,7 @@
     },
     "Healing Poultice": {
         "url": "https://deadbydaylight.fandom.com/wiki/Healing_Poultice",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_HealingPoultice.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 1,
@@ -9751,7 +9751,7 @@
     },
     "Flint and Steel": {
         "url": "https://deadbydaylight.fandom.com/wiki/Flint_and_Steel",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_FlintandSteel.png",
         "Stealth": 0,
         "Informative": 2,
         "1V1": 1,
@@ -9766,7 +9766,7 @@
     },
     "Blacksmith's Hammer": {
         "url": "https://deadbydaylight.fandom.com/wiki/Blacksmith%27s_Hammer",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_BlacksmithHammer.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9781,7 +9781,7 @@
     },
     "Knight's Contract": {
         "url": "https://deadbydaylight.fandom.com/wiki/Knight%27s_Contract",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_KnightContract.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
@@ -9796,7 +9796,7 @@
     },
     "Iridescent Company Banner": {
         "url": "https://deadbydaylight.fandom.com/wiki/Iridescent_Company_Banner",
-        "img_url": "images/addons/iconAddon_iridescentUroborosVial.png",
+        "img_url": "images/addons/iconAddon_IridescentCompanyBanner.png",
         "Stealth": 0,
         "Informative": 0,
         "1V1": 1,
