@@ -1071,5 +1071,42 @@
         "Clutch": 1,
         "Terrorizing": 0,
         "Total": 10
+    },
+    "The Knight": {
+        "url": "https://deadbydaylight.fandom.com/wiki/Tarhos_Kov%C3%A1cs",
+        "img_url": "images/powers/knight.png",
+        "addons": [
+            "Tattered Tabard",
+            "Pillaged Mead",
+            "Map of the Realm",
+            "Gritty Lump",
+            "Treated Blade",
+            "Dried Horsemeat",
+            "Cold Steel Manacles",
+            "Call to Arms",
+            "Battle Axe Head",
+            "Town Watch's Torch",
+            "Ironworker's Tongs",
+            "Grim Iron Mask",
+            "Chain Mail Fragment",
+            "Broken Hilt",
+            "Lightweight Greaves",
+            "Healing Poultice",
+            "Flint and Steel",
+            "Blacksmith's Hammer",
+            "Knight's Contract",
+            "Iridescent Company Banner"
+        ],
+        "Stealth": 0,
+        "Informative": 0,
+        "1V1": 4,
+        "Anti-Gens": 0,
+        "Anti-Healing": 1,
+        "Special Effects": 2,
+        "Anti-Information": 0,
+        "Map Pressure": 2,
+        "Clutch": 1,
+        "Terrorizing": 0,
+        "Total": 10
     }
 }
